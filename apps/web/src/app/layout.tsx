@@ -1,7 +1,9 @@
 import "@nech/ui/globals.css";
 import { cn } from "@nech/ui/utils";
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+
+import PlausibleProvider from "next-plausible";
 
 export const metadata: Metadata = {
 	title: {
@@ -38,12 +40,6 @@ export const metadata: Metadata = {
 	},
 };
 
-const sansFont = Poppins({
-	subsets: ["latin"],
-	weight: ["400", "500", "600", "700"],
-	variable: "--font-sans",
-});
-
 export const viewport = {
 	width: "device-width",
 	initialScale: 1,
@@ -61,10 +57,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<head>
+				<PlausibleProvider domain="nech.ai" />
+			</head>
 			<body
 				className={cn(
-					"min-h-screen bg-background font-sans text-foreground antialiased",
-					sansFont.variable,
+					"min-h-screen bg-background text-foreground antialiased",
+					GeistSans.className,
 				)}
 			>
 				{children}

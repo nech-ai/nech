@@ -17,6 +17,7 @@
 		"lucide-react": "^0.462.0",
 		"motion": "^11.14.4",
 		"next": "15.0.3",
+		"next-plausible": "^3.12.4",
 		"react": "19.0.0",
 		"react-dom": "19.0.0",
 		"three": "^0.171.0",
