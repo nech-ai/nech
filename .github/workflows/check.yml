@@ -1,0 +1,23 @@
+name: Validate code and run tests
+
+on: push
+
+jobs:
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: 1.9.4
+      - name: Run Biome
+        run: biome ci .
+
+  monorepo-lint:
+    name: Monorepo lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: QuiiBz/sherif@v1

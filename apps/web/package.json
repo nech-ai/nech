@@ -1,0 +1,32 @@
+{
+	"name": "@nech/web",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev -p 3001",
+		"build": "next build",
+		"clean": "git clean -xdf .next .turbo node_modules",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"start": "next start",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@nech/ui": "workspace:*",
+		"@tanstack/react-table": "^8.20.6",
+		"geist": "^1.3.1",
+		"motion": "^11.14.4",
+		"next": "15.0.3",
+		"react": "19.0.0",
+		"react-dom": "19.0.0",
+		"three": "^0.171.0",
+		"usehooks-ts": "^3.1.0"
+	},
+	"devDependencies": {
+		"@types/node": "22.10.1",
+		"@types/react": "npm:types-react@19.0.0-rc.1",
+		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+		"@types/three": "^0.170.0",
+		"typescript": "5.7.2"
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"dependencies": {
+		"@react-email/components": "^0.0.28",
+		"@react-email/render": "^1.0.3",
+		"lodash-es": "^4.17.21",
+		"next-intl": "^3.26.1",
+		"nodemailer": "^6.9.16",
+		"react": "19.0.0",
+		"react-dom": "19.0.0",
+		"react-email": "^3.0.4",
+		"use-intl": "^3.26.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@nech/ui": "workspace:*",
+		"@tailwindcss/line-clamp": "^0.4.4",
+		"@types/lodash-es": "^4.17.12",
+		"@types/node": "22.10.1",
+		"@types/nodemailer": "^6.4.17",
+		"@types/react": "npm:types-react@19.0.0-rc.1",
+		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+		"tsconfig": "workspace:*",
+		"typescript": "5.7.2"
+	},
+	"main": "./index.ts",
+	"name": "@nech/mail",
+	"scripts": {
+		"export": "email export",
+		"clean": "rm -rf .turbo node_modules",
+		"lint": "biome check .",
+		"format": "biome format --write .",
+		"typecheck": "tsc --noEmit",
+		"dev": "email dev -p 3003",
+		"build": "email build",
+		"start": "email start"
+	},
+	"types": "./index.ts",
+	"version": "0.0.0"
+}
