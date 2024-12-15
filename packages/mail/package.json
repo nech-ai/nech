@@ -15,7 +15,7 @@
 		"@nech/ui": "workspace:*",
 		"@tailwindcss/line-clamp": "^0.4.4",
 		"@types/lodash-es": "^4.17.12",
-		"@types/node": "22.10.1",
+		"@types/node": "22.10.2",
 		"@types/nodemailer": "^6.4.17",
 		"@types/react": "npm:types-react@19.0.0-rc.1",
 		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
