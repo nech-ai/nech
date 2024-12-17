@@ -47,10 +47,7 @@ export function HeroSection() {
 						Bring your own keys, manage multiple models like ChatGPT, Claude,
 						LLama, and Mistral, and streamline your collaborative AI workflow.
 					</motion.p>
-					<motion.div
-						className="flex flex-col gap-4 sm:flex-row"
-						variants={fadeIn}
-					>
+					<motion.div className="flex flex-row gap-4" variants={fadeIn}>
 						<Button
 							disabled
 							size="lg"
