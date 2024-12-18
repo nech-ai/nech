@@ -32,19 +32,19 @@ export function Layout({ children }: LayoutProps) {
 							</div>
 							<nav className="flex gap-6">
 								<a
-									href="/terms"
+									href="/legal/terms"
 									className="text-gray-400 text-sm transition-colors hover:text-white"
 								>
 									Terms
 								</a>
 								<a
-									href="/privacy"
+									href="/legal/privacy"
 									className="text-gray-400 text-sm transition-colors hover:text-white"
 								>
 									Privacy
 								</a>
 								<a
-									href="/cookies"
+									href="/legal/cookies"
 									className="text-gray-400 text-sm transition-colors hover:text-white"
 								>
 									Cookies
