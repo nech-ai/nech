@@ -41,7 +41,7 @@ export function HeroSection() {
 						className="font-bold text-5xl tracking-tight sm:text-6xl md:text-7xl bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
 						variants={fadeIn}
 					>
-						All AI models, in one place for your team.
+						All AI models in one place for your team.
 					</motion.h1>
 
 					<motion.p
