@@ -4,6 +4,8 @@ import { motion } from "motion/react";
 import { Button } from "@nech/ui/components/button";
 import { GitHubButton } from "@/components/github-button";
 import { Zap } from "lucide-react";
+import { useState } from "react";
+import { SubscribeModal } from "./subscribe-modal";
 
 const fadeIn = {
 	initial: { opacity: 0, y: 20 },
@@ -12,6 +14,8 @@ const fadeIn = {
 };
 
 export function HeroSection() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	return (
 		<section className="relative min-h-[90vh] flex items-center pt-32 pb-24">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -54,6 +58,7 @@ export function HeroSection() {
 						<Button
 							size="lg"
 							className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity"
+							onClick={() => setIsModalOpen(true)}
 						>
 							Join the Waitlist
 						</Button>
@@ -87,6 +92,11 @@ export function HeroSection() {
 					}}
 				/>
 			</div>
+
+			<SubscribeModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+			/>
 		</section>
 	);
 }

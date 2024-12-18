@@ -3,6 +3,8 @@
 import { motion } from "motion/react";
 import { Button } from "@nech/ui/components/button";
 import { Check, CreditCard, Zap } from "lucide-react";
+import { useState } from "react";
+import { SubscribeModal } from "./subscribe-modal";
 
 const fadeIn = {
 	initial: { opacity: 0, y: 20 },
@@ -22,6 +24,8 @@ const features = [
 ];
 
 export function PricingSection() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	return (
 		<section
 			id="pricing"
@@ -62,12 +66,9 @@ export function PricingSection() {
 									<div>
 										<h3 className="text-2xl font-bold">Free During Beta</h3>
 										<p className="mt-2 text-gray-400">
-											After beta, starting from
+											After beta, starting from{" "}
+											<span className="font-bold">£19</span> per month
 										</p>
-									</div>
-									<div className="text-right">
-										<div className="text-4xl font-bold">£59</div>
-										<div className="text-gray-400">/month</div>
 									</div>
 								</div>
 
@@ -75,6 +76,7 @@ export function PricingSection() {
 									<Button
 										size="lg"
 										className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity"
+										onClick={() => setIsModalOpen(true)}
 									>
 										<Zap className="mr-2 h-4 w-4" />
 										Join Beta
@@ -116,6 +118,11 @@ export function PricingSection() {
 				<div className="absolute top-1/3 left-0 -translate-x-1/2 h-[500px] w-[500px] rounded-full bg-purple-500/20 blur-3xl" />
 				<div className="absolute bottom-1/3 right-0 translate-x-1/2 h-[500px] w-[500px] rounded-full bg-blue-500/20 blur-3xl" />
 			</div>
+
+			<SubscribeModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+			/>
 		</section>
 	);
 }

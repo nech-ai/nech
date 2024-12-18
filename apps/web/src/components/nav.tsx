@@ -6,10 +6,12 @@ import { Button } from "@nech/ui/components/button";
 import { motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { SubscribeModal } from "./subscribe-modal";
 
 const navItems: { href: string; label: string }[] = [];
 
 export function Nav() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 	return (
@@ -54,7 +56,10 @@ export function Nav() {
 						>
 							Sign in
 						</Button>
-						<Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity">
+						<Button
+							className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity"
+							onClick={() => setIsModalOpen(true)}
+						>
 							Get Started
 						</Button>
 					</div>
@@ -105,6 +110,11 @@ export function Nav() {
 					</div>
 				</motion.div>
 			)}
+
+			<SubscribeModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+			/>
 		</motion.div>
 	);
 }

@@ -3,6 +3,8 @@
 import { motion } from "motion/react";
 import { Button } from "@nech/ui/components/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { SubscribeModal } from "./subscribe-modal";
 
 const fadeIn = {
 	initial: { opacity: 0, y: 20 },
@@ -11,6 +13,8 @@ const fadeIn = {
 };
 
 export function CTASection() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	return (
 		<section className="relative py-32">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -48,6 +52,7 @@ export function CTASection() {
 							<Button
 								size="lg"
 								className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity"
+								onClick={() => setIsModalOpen(true)}
 							>
 								Join Beta Waitlist
 								<ArrowRight className="ml-2 h-4 w-4" />
@@ -62,6 +67,10 @@ export function CTASection() {
 					</div>
 				</motion.div>
 			</div>
+			<SubscribeModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+			/>
 		</section>
 	);
 }
