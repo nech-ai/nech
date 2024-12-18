@@ -19,17 +19,10 @@ const staggerChildren = {
 
 export function PricingSection() {
 	return (
-		<motion.section
-			id="pricing"
-			className="border-gray-800 border-t bg-gray-900/50 py-24"
-			initial={{ opacity: 0 }}
-			whileInView={{ opacity: 1 }}
-			transition={{ duration: 0.5 }}
-			viewport={{ once: true }}
-		>
+		<section id="pricing" className="relative py-24 bg-gray-900/50">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 				<motion.div
-					className="mx-auto max-w-3xl text-center"
+					className="mx-auto max-w-3xl"
 					variants={staggerChildren}
 					initial="initial"
 					whileInView="animate"
@@ -64,7 +57,8 @@ export function PricingSection() {
 						</ul>
 					</motion.div>
 				</motion.div>
+				<div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
 			</div>
-		</motion.section>
+		</section>
 	);
 }

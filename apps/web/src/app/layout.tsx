@@ -2,7 +2,6 @@ import "@nech/ui/globals.css";
 import { cn } from "@nech/ui/utils";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
-
 import PlausibleProvider from "next-plausible";
 
 export const metadata: Metadata = {
@@ -62,7 +61,7 @@ export default function RootLayout({
 			</head>
 			<body
 				className={cn(
-					"min-h-screen bg-background text-foreground antialiased",
+					"min-h-screen bg-black text-white antialiased",
 					GeistSans.className,
 				)}
 			>

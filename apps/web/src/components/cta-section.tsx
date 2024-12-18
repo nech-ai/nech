@@ -18,14 +18,7 @@ const staggerChildren = {
 
 export function CTASection() {
 	return (
-		<motion.section
-			id="developers"
-			className="border-gray-800 border-t py-24"
-			initial={{ opacity: 0 }}
-			whileInView={{ opacity: 1 }}
-			transition={{ duration: 0.5 }}
-			viewport={{ once: true }}
-		>
+		<section className="relative py-24">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 				<motion.div
 					className="flex flex-col items-center space-y-8 text-center"
@@ -57,7 +50,8 @@ export function CTASection() {
 						</Button>
 					</motion.div>
 				</motion.div>
+				<div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-purple-500/5 blur-3xl" />
 			</div>
-		</motion.section>
+		</section>
 	);
 }
