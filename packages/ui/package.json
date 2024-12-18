@@ -20,7 +20,7 @@
 		"dotenv-cli": "^7.4.4",
 		"postcss": "8.4.49",
 		"tailwind-config": "workspace:*",
-		"tailwindcss": "^3.4.16",
+		"tailwindcss": "^3.4.17",
 		"tsconfig": "workspace:*"
 	},
 	"exports": {
