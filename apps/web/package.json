@@ -28,7 +28,7 @@
 		"@types/node": "22.10.1",
 		"@types/react": "npm:types-react@19.0.0-rc.1",
 		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
-		"@types/three": "^0.170.0",
+		"@types/three": "^0.171.0",
 		"tailwind-config": "workspace:*",
 		"tailwindcss": "^3.4.16",
 		"tsconfig": "workspace:*"
