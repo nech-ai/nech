@@ -12,10 +12,8 @@ export function Layout({ children }: LayoutProps) {
 			suppressHydrationWarning
 		>
 			<div className="flex h-full flex-col overflow-y-auto overflow-x-hidden">
-				<header className="sticky top-0 z-50 border-white/5 border-b bg-black/50 backdrop-blur-md">
-					<div className="container mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-						<Nav />
-					</div>
+				<header className="sticky top-0 z-50 border-white/5 border-b">
+					<Nav />
 				</header>
 				<main className="flex-1">{children}</main>
 				<footer className="border-gray-800 border-t py-12">
