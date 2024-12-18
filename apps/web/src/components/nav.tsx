@@ -52,6 +52,7 @@ export function Nav() {
 					<div className="hidden md:flex items-center space-x-4">
 						<Button
 							variant="ghost"
+							disabled
 							className="text-gray-300 hover:text-white hover:bg-white/10"
 						>
 							Sign in
@@ -99,11 +100,15 @@ export function Nav() {
 						<div className="flex flex-col space-y-4 pt-8">
 							<Button
 								variant="ghost"
+								disabled
 								className="text-gray-300 hover:text-white hover:bg-white/10"
 							>
 								Sign in
 							</Button>
-							<Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity">
+							<Button
+								className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity"
+								onClick={() => setIsModalOpen(true)}
+							>
 								Get Started
 							</Button>
 						</div>

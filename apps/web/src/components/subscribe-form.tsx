@@ -4,6 +4,7 @@ import { subscribeAction } from "@/actions/subscribe-action";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
+import { usePlausible } from "next-plausible";
 
 interface SubscribeInputProps {
 	onSuccess?: () => void;
@@ -11,6 +12,7 @@ interface SubscribeInputProps {
 
 function SubmitButton() {
 	const { pending } = useFormStatus();
+	const plausible = usePlausible();
 
 	if (pending) {
 		return (
@@ -23,6 +25,7 @@ function SubmitButton() {
 	return (
 		<button
 			type="submit"
+			onClick={() => plausible("Join")}
 			className="absolute right-2 top-2 h-8 rounded-md bg-gradient-to-r from-purple-500 to-blue-500 px-4 text-sm font-medium text-white hover:opacity-90 transition-opacity"
 		>
 			Subscribe
