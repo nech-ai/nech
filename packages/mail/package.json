@@ -8,7 +8,7 @@
 		"react": "19.0.0",
 		"react-dom": "19.0.0",
 		"react-email": "^3.0.4",
-		"use-intl": "^3.26.1"
+		"use-intl": "^3.26.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
