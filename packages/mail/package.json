@@ -3,7 +3,7 @@
 		"@react-email/components": "^0.0.31",
 		"@react-email/render": "^1.0.3",
 		"lodash-es": "^4.17.21",
-		"next-intl": "^3.26.1",
+		"next-intl": "^3.26.2",
 		"nodemailer": "^6.9.16",
 		"react": "19.0.0",
 		"react-dom": "19.0.0",
