@@ -12,6 +12,6 @@
 		"functions": "supabase functions serve"
 	},
 	"dependencies": {
-		"supabase": "^2.0.0"
+		"supabase": "^2.1.1"
 	}
 }

@@ -1,7 +1,11 @@
 {
 	"name": "nech",
 	"private": true,
-	"workspaces": ["packages/*", "apps/*", "tooling/*"],
+	"workspaces": [
+		"packages/*",
+		"apps/*",
+		"tooling/*"
+	],
 	"scripts": {
 		"build": "turbo build",
 		"clean": "git clean -xdf node_modules",
@@ -27,7 +31,7 @@
 		"dotenv-cli": "^7.4.4",
 		"tsconfig": "workspace:*",
 		"turbo": "^2.3.3",
-		"type-fest": "^4.30.1",
+		"type-fest": "^4.30.2",
 		"typescript": "5.7.2"
 	},
 	"packageManager": "pnpm@9.12.1"
