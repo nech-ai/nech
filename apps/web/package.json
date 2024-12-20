@@ -29,7 +29,7 @@
 		"@types/node": "22.10.2",
 		"@types/react": "19.0.2",
 		"@types/react-dom": "19.0.2",
-		"@types/three": "^0.170.0",
+		"@types/three": "^0.171.0",
 		"tailwind-config": "workspace:*",
 		"tailwindcss": "^3.4.17",
 		"tsconfig": "workspace:*"
