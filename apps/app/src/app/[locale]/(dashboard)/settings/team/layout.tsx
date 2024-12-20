@@ -14,6 +14,14 @@ export default async function SettingsLayout({ children }: PropsWithChildren) {
 						title: "Members",
 						href: "/settings/team/members",
 					},
+					{
+						title: "Credentials",
+						href: "/settings/team/credentials",
+					},
+					{
+						title: "Roles",
+						href: "/settings/team/roles",
+					},
 				]}
 			/>
 			<div className="mt-8">{children}</div>
