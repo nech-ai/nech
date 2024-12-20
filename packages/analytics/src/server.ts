@@ -15,8 +15,8 @@ type AnalyticsClient = OpenPanel;
 
 const isProd = process.env.NODE_ENV === "production";
 
-function getTrackingConsent(): boolean {
-	const cookieStore = cookies();
+async function getTrackingConsent(): Promise<boolean> {
+	const cookieStore = await cookies();
 	return (
 		!cookieStore.has("tracking-consent") ||
 		cookieStore.get("tracking-consent")?.value === "1"
@@ -37,7 +37,7 @@ function createAnalyticsClient(): AnalyticsClient {
 
 export async function setupAnalytics(options?: AnalyticsProps) {
 	const { userId, fullName } = options ?? {};
-	const trackingConsent = getTrackingConsent();
+	const trackingConsent = await getTrackingConsent();
 	const client = createAnalyticsClient();
 
 	if (trackingConsent && userId && fullName) {
