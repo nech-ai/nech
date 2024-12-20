@@ -2,6 +2,7 @@
 	"dependencies": {
 		"@ai-sdk/openai": "^1.0.8",
 		"@hookform/resolvers": "^3.9.1",
+		"@nech/analytics": "workspace:*",
 		"@nech/mail": "workspace:*",
 		"@nech/supabase": "workspace:*",
 		"@nech/ui": "workspace:*",
