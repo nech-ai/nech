@@ -3,6 +3,7 @@ import { cn } from "@nech/ui/utils";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import PlausibleProvider from "next-plausible";
+import { AnalyticsProvider } from "@nech/analytics/client";
 
 export const metadata: Metadata = {
 	title: {
@@ -66,6 +67,7 @@ export default function RootLayout({
 				)}
 			>
 				{children}
+				<AnalyticsProvider />
 			</body>
 		</html>
 	);
