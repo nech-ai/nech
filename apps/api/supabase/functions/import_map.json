@@ -4,6 +4,6 @@
 		"react": "npm:react@18.3.1",
 		"resend": "npm:resend@4.0.0",
 		"standardwebhooks": "npm:standardwebhooks@1.0.0",
-		"@nech/mail/*": "../../../../../packages/mail/emails/*"
+		"@nech/mail/*": "../../../../../packages/mail/src/emails/*"
 	}
 }

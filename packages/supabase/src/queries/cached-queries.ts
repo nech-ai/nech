@@ -4,12 +4,14 @@ import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { createClient } from "../clients/server";
 import {
+	getTeamCredentialsQuery,
 	getTeamInvitesQuery,
 	getTeamMembersQuery,
 	getTeamMembershipsByUserIdQuery,
 	getTeamUserQuery,
 	getUserInvitesQuery,
 	getUserQuery,
+	getTeamCredentialQuery,
 } from "../queries";
 
 export const getSession = cache(async () => {
@@ -147,6 +149,50 @@ export const getUserInvites = async () => {
 		["user", "invites", email],
 		{
 			tags: [`user_invites_${email}`],
+			revalidate: 180,
+		},
+	)();
+};
+
+export const getCredentials = async () => {
+	const supabase = await createClient();
+
+	const user = await getUser();
+	const teamId = user?.data?.team_id;
+
+	if (!teamId) {
+		return;
+	}
+
+	return unstable_cache(
+		async () => {
+			return getTeamCredentialsQuery(supabase, teamId);
+		},
+		["team", "credentials", teamId],
+		{
+			tags: [`credentials_${teamId}`],
+			revalidate: 180,
+		},
+	)();
+};
+
+export const getCredential = async (credentialId: string) => {
+	const supabase = await createClient();
+
+	const user = await getUser();
+	const teamId = user?.data?.team_id;
+
+	if (!teamId) {
+		return;
+	}
+
+	return unstable_cache(
+		async () => {
+			return getTeamCredentialQuery(supabase, credentialId, teamId);
+		},
+		["credential", credentialId],
+		{
+			tags: [`credential_${credentialId}`],
 			revalidate: 180,
 		},
 	)();

@@ -135,3 +135,28 @@ export async function getUserInvitesQuery(supabase: Client, email: string) {
 		.eq("email", email)
 		.throwOnError();
 }
+
+export async function getTeamCredentialsQuery(
+	supabase: Client,
+	teamId: string,
+) {
+	return supabase
+		.from("credentials")
+		.select("*")
+		.eq("team_id", teamId)
+		.throwOnError();
+}
+
+export async function getTeamCredentialQuery(
+	supabase: Client,
+	credentialId: string,
+	teamId: string,
+) {
+	return supabase
+		.from("credentials")
+		.select("*")
+		.eq("id", credentialId)
+		.eq("team_id", teamId)
+		.single()
+		.throwOnError();
+}

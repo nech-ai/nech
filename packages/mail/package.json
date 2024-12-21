@@ -22,18 +22,24 @@
 		"tsconfig": "workspace:*",
 		"typescript": "5.7.2"
 	},
-	"main": "./index.ts",
+	"main": "./src/index.ts",
 	"name": "@nech/mail",
+	"exports": {
+		".": "./src/index.ts",
+		"./emails/*": "./src/emails/*",
+		"./util/*": "./src/util/*",
+		"./provider/*": "./src/provider/*"
+	},
 	"scripts": {
-		"export": "email export",
+		"export": "email export --dir ./src/emails",
 		"clean": "rm -rf .turbo node_modules",
 		"lint": "biome check .",
 		"format": "biome format --write .",
 		"typecheck": "tsc --noEmit",
-		"dev": "email dev -p 3003",
-		"build": "email build",
-		"start": "email start"
+		"dev": "email dev -p 3003 --dir ./src/emails",
+		"build": "email build --dir ./src/emails",
+		"start": "email start --dir ./src/emails"
 	},
-	"types": "./index.ts",
+	"types": "./src/index.ts",
 	"version": "0.0.0"
 }

@@ -148,3 +148,59 @@ export async function acceptInvitation(
 		.eq("id", params.invitationId)
 		.throwOnError();
 }
+
+type CreateCredentialParams = {
+	name: string;
+	provider: "OPENAI" | "ANTHROPIC" | "GOOGLE" | "AZURE" | "XAI";
+	type: "API_KEY" | "URL";
+	value: string;
+	createdById: string;
+	teamId: string;
+};
+
+export async function createCredential(
+	supabase: Client,
+	params: CreateCredentialParams,
+) {
+	return supabase
+		.from("credentials")
+		.insert({
+			name: params.name,
+			provider: params.provider,
+			type: params.type,
+			value: params.value,
+			created_by_id: params.createdById,
+			team_id: params.teamId,
+		})
+		.select()
+		.single()
+		.throwOnError();
+}
+
+type UpdateCredentialParams = {
+	id: string;
+	name: string;
+	provider: "OPENAI" | "ANTHROPIC" | "GOOGLE" | "AZURE" | "XAI";
+	type: "API_KEY" | "URL";
+	value: string;
+	teamId: string;
+};
+
+export async function updateCredential(
+	supabase: Client,
+	params: UpdateCredentialParams,
+) {
+	return supabase
+		.from("credentials")
+		.update({
+			name: params.name,
+			provider: params.provider,
+			type: params.type,
+			value: params.value,
+		})
+		.eq("id", params.id)
+		.eq("team_id", params.teamId)
+		.select()
+		.single()
+		.throwOnError();
+}

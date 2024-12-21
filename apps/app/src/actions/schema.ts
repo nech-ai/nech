@@ -56,3 +56,26 @@ export const deleteInviteSchema = z.object({
 });
 
 export type DeleteInviteFormValues = z.infer<typeof deleteInviteSchema>;
+
+export const createCredentialSchema = z.object({
+	name: z.string().min(2).max(32),
+	provider: z.enum(["OPENAI", "ANTHROPIC", "GOOGLE", "AZURE", "XAI"]),
+	type: z.enum(["API_KEY", "URL"]),
+	value: z.string(),
+	revalidatePath: z.string().optional(),
+	redirectTo: z.string().optional(),
+});
+
+export type CreateCredentialFormValues = z.infer<typeof createCredentialSchema>;
+
+export const updateCredentialSchema = z.object({
+	id: z.string(),
+	name: z.string().min(2).max(32),
+	provider: z.enum(["OPENAI", "ANTHROPIC", "GOOGLE", "AZURE", "XAI"]),
+	type: z.enum(["API_KEY", "URL"]),
+	value: z.string(),
+	revalidatePath: z.string().optional(),
+	redirectTo: z.string().optional(),
+});
+
+export type UpdateCredentialFormValues = z.infer<typeof updateCredentialSchema>;

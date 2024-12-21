@@ -8,26 +8,30 @@ import {
 	CardTitle,
 } from "@nech/ui/components/card";
 import { cn } from "@nech/ui/utils";
-import type { PropsWithChildren } from "react";
 
-export function ActionBlock({
-	children,
-	title,
-	danger,
-	onSubmit,
-	isSubmitting,
-	isSubmitDisabled,
-	className,
-	submitLabel,
-}: PropsWithChildren<{
-	onSubmit?: () => void;
+interface ActionBlockProps {
 	title: string;
+	children: React.ReactNode;
+	action?: React.ReactNode;
+	onSubmit?: () => void;
 	danger?: boolean;
 	isSubmitting?: boolean;
 	isSubmitDisabled?: boolean;
 	submitLabel?: string;
 	className?: string;
-}>) {
+}
+
+export function ActionBlock({
+	title,
+	children,
+	action,
+	onSubmit,
+	danger,
+	isSubmitting,
+	isSubmitDisabled,
+	submitLabel,
+	className,
+}: ActionBlockProps) {
 	return (
 		<Card
 			className={cn(className, danger ? "border border-destructive/50" : "")}
@@ -38,17 +42,18 @@ export function ActionBlock({
 					onSubmit?.();
 				}}
 			>
-				<CardHeader>
+				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className={danger ? "text-destructive" : ""}>
 						{title}
 					</CardTitle>
+					{action}
 				</CardHeader>
 
 				<CardContent>
 					{children}
 
 					{typeof onSubmit !== "undefined" && (
-						<div className=" mt-6 flex justify-end border-t pt-3">
+						<div className="mt-6 flex justify-end border-t pt-3">
 							<Button
 								type="submit"
 								disabled={isSubmitDisabled}
