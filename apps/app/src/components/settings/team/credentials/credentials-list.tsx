@@ -31,6 +31,8 @@ import {
 import { Button } from "@nech/ui/components/button";
 import { MoreVertical, Pencil } from "lucide-react";
 import Link from "next/link";
+import { format } from "date-fns";
+import { PROVIDER_OPTIONS } from "./types";
 
 type CredentialsOutput = Partial<
 	Database["public"]["Tables"]["credentials"]["Row"]
@@ -67,10 +69,35 @@ export function CredentialsList({
 
 	const columns: ColumnDef<CredentialsOutput[number]>[] = [
 		{
+			id: "name",
 			header: "Name",
 			accessorFn: (row) => row.name,
 		},
 		{
+			id: "provider",
+			header: "Provider",
+			accessorFn: (row) => row.provider,
+			cell: ({ row }) => (
+				<span className="font-medium">
+					{
+						PROVIDER_OPTIONS[
+							row.original.provider as keyof typeof PROVIDER_OPTIONS
+						]?.label
+					}
+				</span>
+			),
+		},
+		{
+			id: "lastUsed",
+			header: "Last Used",
+			accessorFn: (row) => row.last_used_at,
+			cell: ({ row }) =>
+				row.original.last_used_at
+					? format(new Date(row.original.last_used_at), "MMM d, yyyy")
+					: "Never used",
+		},
+		{
+			id: "actions",
 			header: "",
 			accessorKey: "actions",
 			cell: ({ row }) => <ActionsCell id={row.original.id ?? ""} />,

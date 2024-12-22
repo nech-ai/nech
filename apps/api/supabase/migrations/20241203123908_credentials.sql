@@ -12,9 +12,17 @@ create table public.credentials (
   provider provider not null,
   type credential_type not null,
   value TEXT not null,
+  masked_value TEXT generated always as (
+    substring(value, 1, 4) || '********' || right(value, 2)
+  ) stored,
+  is_default BOOLEAN default false,
+  default_model TEXT,
+  default_temperature NUMERIC,
   metadata jsonb default '{}'::jsonb,
   created_at TIMESTAMPTZ not null default now(),
-  updated_at TIMESTAMPTZ not null default now()
+  updated_at TIMESTAMPTZ not null default now(),
+  last_used_at TIMESTAMPTZ,
+  archived_at TIMESTAMPTZ
 );
 
 -- Enable RLS

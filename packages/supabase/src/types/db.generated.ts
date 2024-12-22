@@ -72,9 +72,15 @@ export type Database = {
 			};
 			credentials: {
 				Row: {
+					archived_at: string | null;
 					created_at: string;
 					created_by_id: string;
+					default_model: string | null;
+					default_temperature: number | null;
 					id: string;
+					is_default: boolean | null;
+					last_used_at: string | null;
+					masked_value: string | null;
 					metadata: Json | null;
 					name: string;
 					provider: Database["public"]["Enums"]["provider"];
@@ -84,9 +90,15 @@ export type Database = {
 					value: string;
 				};
 				Insert: {
+					archived_at?: string | null;
 					created_at?: string;
 					created_by_id: string;
+					default_model?: string | null;
+					default_temperature?: number | null;
 					id?: string;
+					is_default?: boolean | null;
+					last_used_at?: string | null;
+					masked_value?: string | null;
 					metadata?: Json | null;
 					name: string;
 					provider: Database["public"]["Enums"]["provider"];
@@ -96,9 +108,15 @@ export type Database = {
 					value: string;
 				};
 				Update: {
+					archived_at?: string | null;
 					created_at?: string;
 					created_by_id?: string;
+					default_model?: string | null;
+					default_temperature?: number | null;
 					id?: string;
+					is_default?: boolean | null;
+					last_used_at?: string | null;
+					masked_value?: string | null;
 					metadata?: Json | null;
 					name?: string;
 					provider?: Database["public"]["Enums"]["provider"];
