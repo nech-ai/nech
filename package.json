@@ -13,22 +13,22 @@
 		"dev:email": "dotenv -c -- turbo dev --filter=@nech/mail",
 		"start:web": "dotenv -c -- turbo start --filter=@nech/web",
 		"start:app": "dotenv -c -- turbo start --filter=@nech/app",
-		"supabase:start": "dotenv -c -- pnpm --filter @nech/api dev",
-		"supabase:reset": "dotenv -c -- pnpm --filter @nech/api reset",
-		"supabase:generate": "dotenv -c -- pnpm --filter @nech/api generate",
+		"supabase:start": "dotenv -c -- turbo dev --filter=@nech/api",
+		"supabase:reset": "dotenv -c -- turbo reset --filter=@nech/api",
+		"supabase:generate": "dotenv -c -- turbo generate --filter=@nech/api",
 		"test": "turbo test --parallel",
 		"format": "biome format --write .",
-		"lint": "turbo lint && pnpm dlx sherif@latest",
-		"lint:repo:fix": "pnpm dlx sherif@latest --fix",
+		"lint": "turbo lint && manypkg check",
 		"typecheck": "turbo typecheck"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
+		"@manypkg/cli": "^0.23.0",
 		"dotenv-cli": "^7.4.4",
 		"tsconfig": "workspace:*",
 		"turbo": "^2.3.3",
 		"type-fest": "^4.30.2",
 		"typescript": "5.7.2"
 	},
-	"packageManager": "pnpm@9.12.1"
+	"packageManager": "bun@1.1.38"
 }

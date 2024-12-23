@@ -172,7 +172,7 @@ export async function createCredential(
 			created_by_id: params.createdById,
 			team_id: params.teamId,
 		})
-		.select()
+		.select("name, provider, type, masked_value, created_by_id, team_id")
 		.single()
 		.throwOnError();
 }

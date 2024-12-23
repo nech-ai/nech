@@ -8,12 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
+      - uses: oven-sh/setup-bun@v1
         with:
-          version: 1.9.4
-      - name: Run Biome
-        run: biome ci .
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: Run Lint
+        run: bun lint
 
   monorepo-lint:
     name: Monorepo lint

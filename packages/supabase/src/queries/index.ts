@@ -154,7 +154,7 @@ export async function getTeamCredentialQuery(
 ) {
 	return supabase
 		.from("credentials")
-		.select("*")
+		.select("name, provider, type, masked_value, created_by_id, team_id")
 		.eq("id", credentialId)
 		.eq("team_id", teamId)
 		.single()

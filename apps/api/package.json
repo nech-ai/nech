@@ -9,7 +9,8 @@
 		"reset": "supabase db reset",
 		"generate": "supabase gen types --lang=typescript --local --schema public > ../../packages/supabase/src/types/db.generated.ts",
 		"generate-functions": "supabase gen types --lang=typescript --local --schema functions > ../../packages/supabase/src/types/functions.generated.ts",
-		"functions": "supabase functions serve"
+		"functions": "supabase functions serve",
+		"clean": "rm -rf .turbo node_modules"
 	},
 	"dependencies": {
 		"supabase": "^2.1.1"
