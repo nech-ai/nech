@@ -70,7 +70,7 @@ export function OpenSourceSection() {
 										$ git clone https://github.com/nech-ai/nech.git
 									</div>
 									<div className="text-gray-400">$ cd nech</div>
-									<div className="text-purple-400">$ pnpm install</div>
+									<div className="text-purple-400">$ bun install</div>
 									<div className="text-green-400">Ready to contribute! 🚀</div>
 								</div>
 							</div>
