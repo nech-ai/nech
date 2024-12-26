@@ -201,9 +201,6 @@ export function ValueProposition() {
 													<div className="w-14 h-14 rounded-xl bg-gray-800/50 flex items-center justify-center">
 														<Icon className={`h-8 w-8 ${model.color}`} />
 													</div>
-													<span className={`text-sm font-mono ${model.color}`}>
-														{model.name}
-													</span>
 												</div>
 											</motion.div>
 										);
