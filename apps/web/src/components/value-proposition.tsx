@@ -47,22 +47,22 @@ const models: AIModel[] = [
 	{
 		name: "Claude",
 		icon: Anthropic,
-		color: "text-purple-400",
+		color: "text-[#D4A27F]",
 	},
 	{
 		name: "xAI",
 		icon: xAI,
-		color: "text-blue-400",
+		color: "text-[#FFFFFF]",
 	},
 	{
 		name: "Mistral",
 		icon: Mistral,
-		color: "text-cyan-400",
+		color: "text-[#FF7000]",
 	},
 	{
 		name: "Groq",
 		icon: Groq,
-		color: "text-green-400",
+		color: "text-[#F55036]",
 	},
 	{
 		name: "Gemini",
