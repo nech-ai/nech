@@ -11,3 +11,4 @@ export * from "./route";
 export * from "./scan-text";
 export * from "./settings";
 export * from "./sun";
+export * from "./companies";
