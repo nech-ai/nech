@@ -1,29 +1,36 @@
 "use server";
-import { updateChatCredential } from "@nech/supabase/mutations";
+import { updateChat } from "@nech/supabase/mutations";
 import {
 	revalidateTag,
 	revalidatePath as revalidatePathFunc,
 } from "next/cache";
 import { redirect } from "next/navigation";
 import { authActionClient } from "./safe-action";
-import { updateChatCredentialSchema } from "./schema";
+import { updateChatSchema } from "./schema";
 
-export const updateChatCredentialAction = authActionClient
-	.schema(updateChatCredentialSchema)
+export const updateChatAction = authActionClient
+	.schema(updateChatSchema)
 	.action(
 		async ({
-			parsedInput: { id, credentialId, revalidatePath, redirectTo },
+			parsedInput: {
+				id,
+				credentialId,
+				model,
+				title,
+				revalidatePath,
+				redirectTo,
+			},
 			ctx: { supabase, user },
 		}) => {
 			if (!user?.team_id) {
 				return;
 			}
 
-			console.log("Updating chat credential:", { id, credentialId });
-
-			const { data: chat } = await updateChatCredential(supabase, {
+			const { data: chat } = await updateChat(supabase, {
 				id,
-				credentialId,
+				credential_id: credentialId,
+				model,
+				title,
 			});
 
 			revalidateTag(`chat_${id}`);

@@ -10,10 +10,10 @@ import {
 } from "@nech/ui/components/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { CheckCircleIcon, KeyIcon } from "lucide-react";
-import { updateChatCredentialAction } from "@/actions/update-chat-credential-action";
 import { useAction } from "next-safe-action/hooks";
 import type { Database } from "@nech/supabase/types";
 import { useToast } from "@nech/ui/hooks/use-toast";
+import { updateChatAction } from "@/actions/update-chat-action";
 
 type Provider = Database["public"]["Enums"]["provider"];
 
@@ -35,7 +35,7 @@ export function CredentialSelector({
 	selectedCredentialId?: string;
 } & React.ComponentProps<typeof Button>) {
 	const { toast } = useToast();
-	const updateCredential = useAction(updateChatCredentialAction, {
+	const updateCredential = useAction(updateChatAction, {
 		onSuccess: () => {
 			toast({
 				title: "Credential updated",

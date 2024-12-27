@@ -246,27 +246,11 @@ type UpdateChatParams = {
 	id: string;
 	title?: string;
 	model?: string;
+	credential_id?: string;
 };
 
 export async function updateChat(supabase: Client, params: UpdateChatParams) {
 	return supabase.from("chats").update(params).eq("id", params.id).select();
-}
-
-type UpdateChatCredentialParams = {
-	id: string;
-	credentialId: string;
-};
-
-export async function updateChatCredential(
-	supabase: Client,
-	params: UpdateChatCredentialParams,
-) {
-	return supabase
-		.from("chats")
-		.update({ credential_id: params.credentialId })
-		.eq("id", params.id)
-		.select()
-		.throwOnError();
 }
 
 type CreateMessageParams = {

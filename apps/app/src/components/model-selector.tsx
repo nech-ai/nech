@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useMemo, useOptimistic, useState } from "react";
+import { startTransition, useMemo, useOptimistic, useEffect } from "react";
 import { Button } from "@nech/ui/components/button";
 import {
 	DropdownMenu,
@@ -8,33 +8,35 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@nech/ui/components/dropdown-menu";
-import { models, getAvailableModels } from "@/lib/ai/models";
 import { cn } from "@/lib/utils";
-import { CheckCircleIcon, ChevronDownIcon, Sparkles } from "lucide-react";
-import { saveModelIdAction } from "@/actions/save-model-id-action";
+import { BrainCircuitIcon, CheckCircleIcon, Loader2Icon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import type { Database } from "@nech/supabase/types";
-import { useRouter } from "next/navigation";
 import { useToast } from "@nech/ui/hooks/use-toast";
+import { getAvailableModels } from "@/lib/ai/models";
+import type { Database } from "@nech/supabase/types";
+import { updateChatAction } from "@/actions/update-chat-action";
 
 type Provider = Database["public"]["Enums"]["provider"];
 
+interface Credential {
+	id: string;
+	provider: Provider;
+}
+
 export function ModelSelector({
-	selectedModelId,
-	provider,
 	chatId,
+	selectedModelId,
+	selectedCredential,
 	className,
 }: {
+	chatId: string;
 	selectedModelId: string;
-	provider?: Provider;
-	chatId?: string;
+	selectedCredential?: Credential;
 	className?: string;
 }) {
-	const router = useRouter();
 	const { toast } = useToast();
-	const saveModelId = useAction(saveModelIdAction, {
+	const updateModel = useAction(updateChatAction, {
 		onSuccess: () => {
-			router.refresh();
 			toast({
 				title: "Model updated",
 				description: "The model has been updated successfully",
@@ -42,77 +44,92 @@ export function ModelSelector({
 		},
 		onError: (error) => {
 			toast({
-				title: "Error",
-				description: error?.error?.serverError || "Failed to update model",
+				title: "Error updating model",
+				description: error?.serverError || "Failed to update model",
 				variant: "destructive",
 			});
 		},
 	});
 
-	const [open, setOpen] = useState(false);
 	const [optimisticModelId, setOptimisticModelId] =
 		useOptimistic(selectedModelId);
 
-	const availableModels = useMemo(
-		() => (provider ? getAvailableModels(provider) : models),
-		[provider],
-	);
+	const availableModels = useMemo(() => {
+		if (!selectedCredential) return [];
+		return getAvailableModels(selectedCredential.provider);
+	}, [selectedCredential]);
 
 	const selectedModel = useMemo(
 		() => availableModels.find((model) => model.id === optimisticModelId),
 		[availableModels, optimisticModelId],
 	);
 
+	useEffect(() => {
+		if (selectedCredential && availableModels.length > 0) {
+			const isCurrentModelValid = availableModels.some(
+				(model) => model.id === selectedModelId,
+			);
+
+			if (!isCurrentModelValid) {
+				startTransition(() => {
+					const defaultModel = availableModels[0];
+					setOptimisticModelId(defaultModel.id);
+					updateModel.execute({
+						id: chatId,
+						model: defaultModel.id,
+						revalidatePath: `/chat/${chatId}`,
+					});
+				});
+			}
+		}
+	}, [selectedCredential?.id]);
+
+	if (!selectedCredential) return null;
+
 	return (
-		<DropdownMenu open={open} onOpenChange={setOpen}>
-			<DropdownMenuTrigger
-				asChild
-				className={cn(
-					"w-fit data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-					className,
-				)}
-			>
-				<Button variant="outline" className="md:px-2 md:h-[34px]">
-					<Sparkles className="mr-2 h-4 w-4" />
-					{selectedModel?.label || "Select Model"}
-					<ChevronDownIcon className="ml-2 h-4 w-4" />
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant="outline"
+					className={cn(
+						"flex items-center gap-2 md:h-9 md:px-3",
+						"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+						className,
+					)}
+					disabled={updateModel.status === "executing"}
+				>
+					<BrainCircuitIcon className="h-4 w-4" />
+					<span className="max-w-[150px] truncate">
+						{selectedModel?.label || "Select Model"}
+					</span>
+					{updateModel.status === "executing" && (
+						<Loader2Icon className="ml-2 h-4 w-4 animate-spin" />
+					)}
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="start" className="min-w-[300px]">
+			<DropdownMenuContent align="start" className="w-[200px]">
 				{availableModels.map((model) => (
 					<DropdownMenuItem
 						key={model.id}
 						onSelect={() => {
-							setOpen(false);
 							startTransition(() => {
 								setOptimisticModelId(model.id);
-								saveModelId.execute({
+								updateModel.execute({
+									id: chatId,
 									modelId: model.id,
-									chatId,
+									revalidatePath: `/chat/${chatId}`,
 								});
 							});
 						}}
-						className={cn(
-							"gap-4 group/item flex flex-row justify-between items-center",
-							model.id === optimisticModelId && "bg-accent",
-						)}
+						className="flex items-center justify-between py-2"
 					>
-						<div className="flex flex-col gap-1 items-start">
-							{model.label}
-							{model.description && (
-								<div className="text-xs text-muted-foreground">
-									{model.description}
-								</div>
-							)}
+						<div className="flex items-center gap-2">
+							<BrainCircuitIcon className="h-4 w-4" />
+							<span className="truncate">{model.label}</span>
 						</div>
-						<div
-							className={cn(
-								"text-foreground dark:text-foreground opacity-0",
-								model.id === optimisticModelId && "opacity-100",
-							)}
-						>
-							<CheckCircleIcon className="h-4 w-4" />
-						</div>
+						{model.id === optimisticModelId && (
+							<CheckCircleIcon className="h-4 w-4 text-primary" />
+						)}
 					</DropdownMenuItem>
 				))}
 			</DropdownMenuContent>

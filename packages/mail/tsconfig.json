@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@nech/mail/*": ["./src/*"]
+			"@nech/mail/*": ["./src/*"],
+			"@config": ["../../config"]
 		}
 	},
 	"include": ["src"],

@@ -98,13 +98,13 @@ export const createChatSchema = z.object({
 
 export type CreateChatFormValues = z.infer<typeof createChatSchema>;
 
-export const updateChatCredentialSchema = z.object({
+export const updateChatSchema = z.object({
 	id: z.string(),
-	credentialId: z.string(),
+	credentialId: z.string().optional(),
+	model: z.string().optional(),
+	title: z.string().optional(),
 	revalidatePath: z.string().optional(),
 	redirectTo: z.string().optional(),
 });
 
-export type UpdateChatCredentialFormValues = z.infer<
-	typeof updateChatCredentialSchema
->;
+export type UpdateChatFormValues = z.infer<typeof updateChatSchema>;
