@@ -142,6 +142,51 @@ export type Database = {
 					},
 				];
 			};
+			documents: {
+				Row: {
+					content: string;
+					created_at: string;
+					id: string;
+					kind: Database["public"]["Enums"]["document_kind"];
+					team_id: string;
+					updated_at: string;
+					user_id: string | null;
+				};
+				Insert: {
+					content: string;
+					created_at?: string;
+					id?: string;
+					kind: Database["public"]["Enums"]["document_kind"];
+					team_id: string;
+					updated_at?: string;
+					user_id?: string | null;
+				};
+				Update: {
+					content?: string;
+					created_at?: string;
+					id?: string;
+					kind?: Database["public"]["Enums"]["document_kind"];
+					team_id?: string;
+					updated_at?: string;
+					user_id?: string | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "documents_team_id_fkey";
+						columns: ["team_id"];
+						isOneToOne: false;
+						referencedRelation: "teams";
+						referencedColumns: ["id"];
+					},
+					{
+						foreignKeyName: "documents_user_id_fkey";
+						columns: ["user_id"];
+						isOneToOne: false;
+						referencedRelation: "users";
+						referencedColumns: ["id"];
+					},
+				];
+			};
 			messages: {
 				Row: {
 					chat_id: string;
@@ -185,13 +230,6 @@ export type Database = {
 						columns: ["chat_id"];
 						isOneToOne: false;
 						referencedRelation: "chats";
-						referencedColumns: ["id"];
-					},
-					{
-						foreignKeyName: "messages_parent_id_fkey";
-						columns: ["parent_id"];
-						isOneToOne: false;
-						referencedRelation: "latest_chat_messages";
 						referencedColumns: ["id"];
 					},
 					{
@@ -363,74 +401,9 @@ export type Database = {
 			};
 		};
 		Views: {
-			latest_chat_messages: {
-				Row: {
-					chat_id: string | null;
-					chat_title: string | null;
-					content: string | null;
-					created_at: string | null;
-					id: string | null;
-					metadata: Json | null;
-					parent_id: string | null;
-					role: Database["public"]["Enums"]["role"] | null;
-					team_id: string | null;
-					tokens_used: number | null;
-					type: Database["public"]["Enums"]["message_type"] | null;
-					updated_at: string | null;
-				};
-				Relationships: [
-					{
-						foreignKeyName: "chats_team_id_fkey";
-						columns: ["team_id"];
-						isOneToOne: false;
-						referencedRelation: "teams";
-						referencedColumns: ["id"];
-					},
-					{
-						foreignKeyName: "messages_chat_id_fkey";
-						columns: ["chat_id"];
-						isOneToOne: false;
-						referencedRelation: "chats";
-						referencedColumns: ["id"];
-					},
-					{
-						foreignKeyName: "messages_parent_id_fkey";
-						columns: ["parent_id"];
-						isOneToOne: false;
-						referencedRelation: "latest_chat_messages";
-						referencedColumns: ["id"];
-					},
-					{
-						foreignKeyName: "messages_parent_id_fkey";
-						columns: ["parent_id"];
-						isOneToOne: false;
-						referencedRelation: "messages";
-						referencedColumns: ["id"];
-					},
-				];
-			};
+			[_ in never]: never;
 		};
 		Functions: {
-			create_chat: {
-				Args: {
-					p_title: string;
-					p_model: string;
-					p_system_prompt?: string;
-					p_metadata?: Json;
-				};
-				Returns: {
-					created_at: string;
-					created_by_id: string;
-					credential_id: string;
-					id: string;
-					metadata: Json | null;
-					model: string;
-					system_prompt: string | null;
-					team_id: string;
-					title: string;
-					updated_at: string;
-				};
-			};
 			create_team: {
 				Args: {
 					name: string;
@@ -454,14 +427,10 @@ export type Database = {
 		};
 		Enums: {
 			credential_type: "API_KEY" | "URL";
-			message_type:
-				| "SYSTEM"
-				| "USER"
-				| "ASSISTANT"
-				| "TOOL_CALL"
-				| "TOOL_RESULT";
+			document_kind: "TEXT" | "CODE";
+			message_type: "image" | "text";
 			provider: "OPENAI" | "ANTHROPIC" | "GOOGLE" | "AZURE" | "XAI";
-			role: "USER" | "ASSISTANT" | "SYSTEM";
+			role: "user" | "assistant" | "system" | "tool";
 			team_role: "OWNER" | "MEMBER";
 		};
 		CompositeTypes: {

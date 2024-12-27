@@ -12,6 +12,9 @@ import {
 	getUserInvitesQuery,
 	getUserQuery,
 	getTeamCredentialQuery,
+	getTeamChatsQuery,
+	getChatQuery,
+	getChatMessagesQuery,
 } from "../queries";
 
 export const getSession = cache(async () => {
@@ -193,6 +196,58 @@ export const getCredential = async (credentialId: string) => {
 		["credential", credentialId],
 		{
 			tags: [`credential_${credentialId}`],
+			revalidate: 180,
+		},
+	)();
+};
+
+export const getChats = async () => {
+	const supabase = await createClient();
+
+	const user = await getUser();
+	const teamId = user?.data?.team_id;
+
+	if (!teamId) {
+		return;
+	}
+
+	return unstable_cache(
+		async () => {
+			return getTeamChatsQuery(supabase, teamId);
+		},
+		["team", "chats", teamId],
+		{
+			tags: [`team_chats_${teamId}`],
+			revalidate: 180,
+		},
+	)();
+};
+
+export const getChat = async (chatId: string) => {
+	const supabase = await createClient();
+
+	return unstable_cache(
+		async () => {
+			return getChatQuery(supabase, chatId);
+		},
+		["chat", chatId],
+		{
+			tags: [`chat_${chatId}`],
+			revalidate: 180,
+		},
+	)();
+};
+
+export const getMessages = async (chatId: string) => {
+	const supabase = await createClient();
+
+	return unstable_cache(
+		async () => {
+			return getChatMessagesQuery(supabase, chatId);
+		},
+		["chat", "messages", chatId],
+		{
+			tags: [`chat_messages_${chatId}`],
 			revalidate: 180,
 		},
 	)();

@@ -1,11 +1,10 @@
 import { AppSidebar } from "@/components/layout/app-sidebar";
-import { Footer } from "@/components/layout/footer";
-import { UserMenu } from "@/components/layout/user-menu";
 import { TeamContextProvider } from "@/shared/lib/team-context";
 import { getTeamMemberships, getUser } from "@nech/supabase/cached-queries";
 import { SidebarInset, SidebarProvider } from "@nech/ui/components/sidebar";
 import { redirect } from "next/navigation";
 import type { PropsWithChildren } from "react";
+import { UserMenu } from "@/components/layout/user-menu";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -18,16 +17,11 @@ export default async function Layout({ children }: PropsWithChildren) {
 		return redirect("/login");
 	}
 
-	// if (!user?.data.onboarded) {
-	// 	return redirect("/onboarding");
-	// }
-
 	if (!user.team_id) {
 		return redirect("/teams");
 	}
 
 	const userTeamMemberships = await getTeamMemberships();
-
 	const teamMemberships = userTeamMemberships?.data ?? [];
 
 	if (!teamMemberships?.length) {
@@ -46,12 +40,11 @@ export default async function Layout({ children }: PropsWithChildren) {
 					user={user}
 				/>
 				<SidebarInset>
-					<div className="flex min-h-screen flex-col">
-						<div className="absolute top-4 right-4">
+					<div className="h-screen flex flex-col">
+						<div className="fixed right-4 top-4 z-30">
 							<UserMenu user={user} />
 						</div>
-						<main className="flex-1">{children}</main>
-						<Footer />
+						<div className="flex-1">{children}</div>
 					</div>
 				</SidebarInset>
 			</SidebarProvider>

@@ -62,6 +62,7 @@ export const createCredentialSchema = z.object({
 	provider: z.enum(["OPENAI", "ANTHROPIC", "GOOGLE", "AZURE", "XAI"]),
 	type: z.enum(["API_KEY", "URL"]),
 	value: z.string(),
+	default_model: z.string().optional(),
 	revalidatePath: z.string().optional(),
 	redirectTo: z.string().optional(),
 });
@@ -74,8 +75,36 @@ export const updateCredentialSchema = z.object({
 	provider: z.enum(["OPENAI", "ANTHROPIC", "GOOGLE", "AZURE", "XAI"]),
 	type: z.enum(["API_KEY", "URL"]),
 	value: z.string(),
+	default_model: z.string().optional(),
 	revalidatePath: z.string().optional(),
 	redirectTo: z.string().optional(),
 });
 
 export type UpdateCredentialFormValues = z.infer<typeof updateCredentialSchema>;
+
+export const saveModelIdSchema = z.object({
+	modelId: z.string(),
+	chatId: z.string().optional(),
+	revalidatePath: z.string().optional(),
+});
+
+export type SaveModelIdFormValues = z.infer<typeof saveModelIdSchema>;
+
+export const createChatSchema = z.object({
+	title: z.string().min(1),
+	credentialId: z.string().min(1),
+	model: z.string().min(1),
+});
+
+export type CreateChatFormValues = z.infer<typeof createChatSchema>;
+
+export const updateChatCredentialSchema = z.object({
+	id: z.string(),
+	credentialId: z.string(),
+	revalidatePath: z.string().optional(),
+	redirectTo: z.string().optional(),
+});
+
+export type UpdateChatCredentialFormValues = z.infer<
+	typeof updateChatCredentialSchema
+>;

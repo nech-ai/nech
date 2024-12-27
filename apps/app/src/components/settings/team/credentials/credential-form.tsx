@@ -11,6 +11,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormControl,
+	FormDescription,
 } from "@nech/ui/components/form";
 import { Input } from "@nech/ui/components/input";
 import {
@@ -21,6 +22,11 @@ import {
 	SelectValue,
 } from "@nech/ui/components/select";
 import { Button } from "@nech/ui/components/button";
+import { getAvailableModels } from "@/lib/ai/models";
+import { useMemo } from "react";
+import type { Database } from "@nech/supabase/types";
+
+type Provider = Database["public"]["Enums"]["provider"];
 
 export function CredentialForm(
 	props: CreateCredentialFormProps | UpdateCredentialFormProps,
@@ -31,6 +37,12 @@ export function CredentialForm(
 		submitText = "Save",
 		loadingText = "Saving...",
 	} = props;
+
+	const selectedProvider = form.watch("provider") as Provider;
+	const availableModels = useMemo(
+		() => getAvailableModels(selectedProvider),
+		[selectedProvider],
+	);
 
 	return (
 		<Form {...form}>
@@ -60,7 +72,11 @@ export function CredentialForm(
 									<FormLabel>Provider</FormLabel>
 									<FormControl>
 										<Select
-											onValueChange={field.onChange}
+											onValueChange={(value) => {
+												field.onChange(value);
+												// Reset default model when provider changes
+												form.setValue("default_model", undefined);
+											}}
 											defaultValue={field.value}
 										>
 											<SelectTrigger className="h-10 w-[180px]">
@@ -91,6 +107,35 @@ export function CredentialForm(
 								<FormControl>
 									<Input type="password" placeholder="sk-..." {...field} />
 								</FormControl>
+							</FormItem>
+						)}
+					/>
+				</div>
+
+				<div className="mt-4">
+					<FormField
+						control={form.control}
+						name="default_model"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Default Model</FormLabel>
+								<FormControl>
+									<Select onValueChange={field.onChange} value={field.value}>
+										<SelectTrigger className="w-full">
+											<SelectValue placeholder="Select a default model" />
+										</SelectTrigger>
+										<SelectContent>
+											{availableModels.map((model) => (
+												<SelectItem key={model.id} value={model.id}>
+													{model.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								</FormControl>
+								<FormDescription>
+									This model will be used by default when using this credential
+								</FormDescription>
 							</FormItem>
 						)}
 					/>

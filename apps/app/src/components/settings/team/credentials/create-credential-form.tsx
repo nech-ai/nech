@@ -49,6 +49,7 @@ export function CreateCredentialForm() {
 			provider: "OPENAI",
 			type: "API_KEY",
 			value: "",
+			default_model: undefined,
 			redirectTo: "/settings/team/credentials",
 		},
 	});

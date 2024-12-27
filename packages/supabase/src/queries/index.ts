@@ -1,4 +1,4 @@
-import type { Client } from "../types";
+import type { Client } from "../types/index";
 
 // Database types
 export async function getUserQuery(supabase: Client, userId: string) {
@@ -159,4 +159,38 @@ export async function getTeamCredentialQuery(
 		.eq("team_id", teamId)
 		.single()
 		.throwOnError();
+}
+
+export async function getChatCredentialQuery(supabase: Client, chatId: string) {
+	const { data } = await supabase
+		.from("chats")
+		.select("*, credential:credentials(*)")
+		.eq("id", chatId)
+		.single();
+
+	return data?.credential;
+}
+
+export async function getCredentialByIdWithTokenQuery(
+	supabase: Client,
+	credentialId: string,
+) {
+	return await supabase
+		.from("credentials")
+		.select("*")
+		.eq("id", credentialId)
+		.single()
+		.throwOnError();
+}
+
+export async function getTeamChatsQuery(supabase: Client, teamId: string) {
+	return supabase.from("chats").select("*").eq("team_id", teamId);
+}
+
+export async function getChatQuery(supabase: Client, chatId: string) {
+	return supabase.from("chats").select("*").eq("id", chatId).single();
+}
+
+export async function getChatMessagesQuery(supabase: Client, chatId: string) {
+	return supabase.from("messages").select("*").eq("chat_id", chatId);
 }

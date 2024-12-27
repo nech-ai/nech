@@ -21,7 +21,7 @@ const data = {
 	navMain: [
 		{
 			title: "Chats",
-			url: "/chats",
+			url: "/chat",
 			icon: MessageSquareIcon,
 		},
 		{

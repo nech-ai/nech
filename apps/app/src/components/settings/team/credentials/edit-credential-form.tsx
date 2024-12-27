@@ -5,7 +5,6 @@ import {
 	updateCredentialSchema,
 	type UpdateCredentialFormValues,
 } from "@/actions/schema";
-import { useTeam } from "@/hooks/use-team";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Card,
@@ -29,7 +28,6 @@ export function EditCredentialForm({
 	credential: Database["public"]["Tables"]["credentials"]["Row"];
 }) {
 	const { toast } = useToast();
-	const { teamMembership } = useTeam();
 	const { execute } = useAction(updateCredentialAction, {
 		onSuccess: () => {
 			toast({
@@ -55,6 +53,7 @@ export function EditCredentialForm({
 			provider: credential.provider,
 			type: credential.type,
 			value: credential.value,
+			default_model: credential.default_model || undefined,
 			redirectTo: "/settings/team/credentials",
 		},
 	});

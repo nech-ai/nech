@@ -1,14 +1,11 @@
 -- Create enum for message types
 create type message_type as ENUM(
-    'SYSTEM',
-    'USER',
-    'ASSISTANT',
-    'TOOL_CALL',
-    'TOOL_RESULT'
+    'image',
+    'text'
 );
 
 -- create enum for role
-create type role as ENUM('USER', 'ASSISTANT', 'SYSTEM');
+create type role as ENUM('user', 'assistant', 'system', 'tool');
 
 -- Create chats table
 create table public.chats (
@@ -112,84 +109,3 @@ create index idx_messages_chat on public.messages (chat_id);
 create index idx_messages_parent on public.messages (parent_id);
 
 create index idx_messages_type on public.messages (type);
-
--- Helper view for latest messages
-create or replace view public.latest_chat_messages
-with
-    (security_invoker = true) as
-select distinct
-    on (chat_id) m.*,
-    c.title as chat_title,
-    c.team_id
-from
-    public.messages m
-    join public.chats c on c.id = m.chat_id
-where
-    type != 'SYSTEM'
-order by
-    chat_id,
-    created_at desc;
-
--- Grant access to the view
-grant
-select
-    on public.latest_chat_messages to authenticated;
-
--- Function to create a new chat
-create
-or replace function public.create_chat (
-    p_title TEXT,
-    p_model TEXT,
-    p_system_prompt TEXT default null,
-    p_metadata jsonb default '{}'::jsonb
-) returns public.chats language plpgsql security definer
-set
-    search_path = public as $$
-declare
-    v_team_id uuid;
-    v_chat public.chats;
-begin
-    -- Get team_id from the user's profile
-    select team_id into v_team_id from public.users where id = auth.uid();
-
-    if v_team_id is null then
-        raise exception 'User must belong to a team';
-    end if;
-
-    insert into chats (
-        team_id,
-        created_by_id,
-        title,
-        model,
-        system_prompt,
-        metadata
-    )
-    values (
-        v_team_id,
-        auth.uid(),
-        p_title,
-        p_model,
-        p_system_prompt,
-        p_metadata
-    )
-    returning * into v_chat;
-
-    -- Insert system message if provided
-    if p_system_prompt is not null then
-        insert into messages (
-            chat_id,
-            type,
-            content,
-            role
-        )
-        values (
-            v_chat.id,
-            'SYSTEM',
-            p_system_prompt,
-            'system'
-        );
-    end if;
-
-    return v_chat;
-end;
-$$;

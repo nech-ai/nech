@@ -42,7 +42,7 @@ export default async function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<body
 				className={cn(
-					"min-h-screen bg-background font-sans text-foreground antialiased",
+					"min-h-screen bg-background font-sans text-foreground antialiased overflow-hidden",
 					sansFont.variable,
 				)}
 			>

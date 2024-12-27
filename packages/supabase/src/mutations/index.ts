@@ -1,5 +1,5 @@
 import { getUserQuery } from "../queries";
-import type { Client, TablesUpdate } from "../types";
+import type { Client, TablesUpdate } from "../types/index";
 
 export async function updateUser(
 	supabase: Client,
@@ -203,4 +203,90 @@ export async function updateCredential(
 		.select()
 		.single()
 		.throwOnError();
+}
+
+type CreateChatParams = {
+	title: string;
+	credentialId: string;
+	model: string;
+};
+
+export async function createChat(supabase: Client, params: CreateChatParams) {
+	const {
+		data: { session },
+	} = await supabase.auth.getSession();
+
+	if (!session?.user) {
+		return;
+	}
+
+	const user = await getUserQuery(supabase, session.user.id);
+
+	if (!user.data?.team?.id) {
+		return;
+	}
+	return supabase
+		.from("chats")
+		.insert({
+			team_id: user.data.team.id,
+			title: params.title,
+			created_by_id: session.user.id,
+			credential_id: params.credentialId,
+			model: params.model,
+		})
+		.select()
+		.single();
+}
+
+export async function deleteChat(supabase: Client, chatId: string) {
+	return supabase.from("chats").delete().eq("id", chatId);
+}
+
+type UpdateChatParams = {
+	id: string;
+	title?: string;
+	model?: string;
+};
+
+export async function updateChat(supabase: Client, params: UpdateChatParams) {
+	return supabase.from("chats").update(params).eq("id", params.id).select();
+}
+
+type UpdateChatCredentialParams = {
+	id: string;
+	credentialId: string;
+};
+
+export async function updateChatCredential(
+	supabase: Client,
+	params: UpdateChatCredentialParams,
+) {
+	return supabase
+		.from("chats")
+		.update({ credential_id: params.credentialId })
+		.eq("id", params.id)
+		.select()
+		.throwOnError();
+}
+
+type CreateMessageParams = {
+	chatId: string;
+	content: string;
+	role: "user" | "assistant" | "system" | "tool";
+};
+
+export async function createMessage(
+	supabase: Client,
+	params: CreateMessageParams,
+) {
+	return supabase
+		.from("messages")
+		.insert({
+			chat_id: params.chatId,
+			content: params.content,
+			role: params.role,
+			type: "text",
+		})
+		.select()
+		.single();
 }
