@@ -3,7 +3,7 @@ import { cn } from "../utils/cn";
 export const OpenAI = ({ className }: { className?: string }) => {
 	return (
 		<div className={cn("flex items-center justify-center", className)}>
-			<svg viewBox="0 0 24 24">
+			<svg viewBox="0 0 24 24" className="size-8">
 				<title>OpenAI icon</title>
 				<path
 					fill="currentColor"
@@ -17,7 +17,7 @@ export const OpenAI = ({ className }: { className?: string }) => {
 export const Anthropic = ({ className }: { className?: string }) => {
 	return (
 		<div className={cn("flex items-center justify-center", className)}>
-			<svg viewBox="0 0 256 176">
+			<svg viewBox="0 0 256 176" className="size-8">
 				<title>Anthropic</title>
 				<g fill="currentColor">
 					<path d="M147.486878,0 C147.486878,0 217.568251,175.780074 217.568251,175.780074 C217.568251,175.780074 256,175.780074 256,175.780074 C256,175.780074 185.918621,0 185.918621,0 C185.918621,0 147.486878,0 147.486878,0 C147.486878,0 147.486878,0 147.486878,0 Z" />
@@ -31,7 +31,7 @@ export const Anthropic = ({ className }: { className?: string }) => {
 export const Gemini = ({ className }: { className?: string }) => {
 	return (
 		<div className={cn("flex items-center justify-center", className)}>
-			<svg viewBox="0 0 16 16">
+			<svg viewBox="0 0 16 16" className="size-8">
 				<path
 					d="M16 8.016A8.522 8.522 0 008.016 16h-.032A8.521 8.521 0 000 8.016v-.032A8.521 8.521 0 007.984 0h.032A8.522 8.522 0 0016 7.984v.032z"
 					fill="url(#prefix__paint0_radial_980_20147)"
@@ -58,7 +58,7 @@ export const Gemini = ({ className }: { className?: string }) => {
 export const Mistral = ({ className }: { className?: string }) => {
 	return (
 		<div className={cn("flex items-center justify-center", className)}>
-			<svg viewBox="0 0 512 512">
+			<svg viewBox="0 0 512 512" className="size-8">
 				<path
 					d="M189.08 303.228H94.587l.044-94.446h94.497l-.048 94.446z"
 					fill="currentColor"
@@ -182,7 +182,7 @@ export const Mistral = ({ className }: { className?: string }) => {
 export const Groq = ({ className }: { className?: string }) => {
 	return (
 		<div className={cn("flex items-center justify-center", className)}>
-			<svg viewBox="0 0 894.2 304.8">
+			<svg viewBox="0 0 894.2 304.8" className="size-8">
 				<path
 					fill="currentColor"
 					d="M499.3,0.5c-57.6,0-104.4,46.7-104.4,104.4s46.7,104.4,104.4,104.4s104.4-46.7,104.4-104.4l0,0l0,0
@@ -218,7 +218,7 @@ export const Groq = ({ className }: { className?: string }) => {
 export const xAI = ({ className }: { className?: string }) => {
 	return (
 		<div className={cn("flex items-center justify-center", className)}>
-			<svg viewBox="0 0 841.89 595.28">
+			<svg viewBox="0 0 841.89 595.28" className="size-8">
 				<g fill="currentColor">
 					<polygon points="557.09,211.99 565.4,538.36 631.96,538.36 640.28,93.18 	" />
 					<polygon points="640.28,56.91 538.72,56.91 379.35,284.53 430.13,357.05 	" />
