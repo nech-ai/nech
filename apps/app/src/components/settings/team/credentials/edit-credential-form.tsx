@@ -14,39 +14,19 @@ import {
 } from "@nech/ui/components/card";
 import { useToast } from "@nech/ui/hooks/use-toast";
 import { useAction } from "next-safe-action/hooks";
-import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import type { Database } from "@nech/supabase/types";
-import { CredentialForm } from "./credential-form";
+import { CredentialFormFields } from "./credential-form-fields";
+import { Button } from "@nech/ui/components/button";
 
-const formSchema = updateCredentialSchema;
-type FormValues = UpdateCredentialFormValues;
-
-export function EditCredentialForm({
-	credential,
-}: {
+interface EditCredentialFormProps {
 	credential: Database["public"]["Tables"]["credentials"]["Row"];
-}) {
-	const { toast } = useToast();
-	const { execute } = useAction(updateCredentialAction, {
-		onSuccess: () => {
-			toast({
-				title: "Credential updated successfully",
-				description: "Your credential has been updated.",
-				variant: "default",
-			});
-		},
-		onError: (error) => {
-			toast({
-				variant: "destructive",
-				title: "Error",
-				description: error?.error?.serverError || "Failed to update credential",
-			});
-		},
-	});
+}
 
+export function EditCredentialForm({ credential }: EditCredentialFormProps) {
+	const { toast } = useToast();
 	const form = useForm<UpdateCredentialFormValues>({
-		resolver: zodResolver(formSchema),
+		resolver: zodResolver(updateCredentialSchema),
 		defaultValues: {
 			id: credential.id,
 			name: credential.name,
@@ -58,9 +38,21 @@ export function EditCredentialForm({
 		},
 	});
 
-	const onSubmit: SubmitHandler<UpdateCredentialFormValues> = (values) => {
-		execute({ ...values });
-	};
+	const { execute, status } = useAction(updateCredentialAction, {
+		onSuccess: () => {
+			toast({
+				title: "Credential updated",
+				description: "Your credential has been updated successfully.",
+			});
+		},
+		onError: (error) => {
+			toast({
+				variant: "destructive",
+				title: "Error",
+				description: error?.error?.serverError || "Failed to update credential",
+			});
+		},
+	});
 
 	return (
 		<Card>
@@ -68,12 +60,14 @@ export function EditCredentialForm({
 				<CardTitle>Edit Credential</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<CredentialForm
-					form={form}
-					onSubmit={onSubmit}
-					submitText="Save Changes"
-					loadingText="Saving..."
-				/>
+				<form onSubmit={form.handleSubmit((values) => execute(values))}>
+					<CredentialFormFields form={form} />
+					<div className="mt-6 flex justify-end border-t pt-3">
+						<Button type="submit" disabled={status === "executing"}>
+							{status === "executing" ? "Saving..." : "Save Changes"}
+						</Button>
+					</div>
+				</form>
 			</CardContent>
 		</Card>
 	);

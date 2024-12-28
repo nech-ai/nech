@@ -11,15 +11,16 @@ export async function generateMetadata() {
 export default async function UpdateCredentialPage({
 	params,
 }: { params: { credId: string } }) {
-	const result = await getCredential(params.credId);
+	// @ts-expect-error
+	const { data: credential } = await getCredential(params.credId);
 
-	if (!result?.data) {
+	if (!credential) {
 		notFound();
 	}
 
 	return (
 		<div className="grid grid-cols-1 gap-6">
-			<EditCredentialForm credential={result.data} />
+			<EditCredentialForm credential={credential} />
 		</div>
 	);
 }

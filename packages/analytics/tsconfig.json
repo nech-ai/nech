@@ -1,11 +1,5 @@
 {
-	"extends": "tsconfig/react-library.json",
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@nech/analytics/*": ["./src/*"]
-		}
-	},
+	"extends": "tsconfig/nextjs.json",
 	"include": ["src"],
 	"exclude": ["node_modules"]
 }

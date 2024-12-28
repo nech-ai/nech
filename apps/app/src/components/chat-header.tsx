@@ -5,13 +5,6 @@ import { ModelSelector } from "./model-selector";
 import { CredentialSelector } from "./credential-selector";
 import type { Database } from "@nech/supabase/types";
 
-type Provider = Database["public"]["Enums"]["provider"];
-
-interface Credential {
-	id: string;
-	provider: Provider;
-}
-
 function PureChatHeader({
 	selectedModelId,
 	selectedCredentialId,
@@ -20,7 +13,7 @@ function PureChatHeader({
 }: {
 	selectedModelId: string;
 	selectedCredentialId?: string;
-	credentials: Credential[];
+	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
 	chatId: string;
 }) {
 	const selectedCredential = credentials.find(

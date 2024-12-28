@@ -45,7 +45,7 @@ export function ModelSelector({
 		onError: (error) => {
 			toast({
 				title: "Error updating model",
-				description: error?.serverError || "Failed to update model",
+				description: error?.error?.serverError || "Failed to update model",
 				variant: "destructive",
 			});
 		},
@@ -73,6 +73,7 @@ export function ModelSelector({
 			if (!isCurrentModelValid) {
 				startTransition(() => {
 					const defaultModel = availableModels[0];
+					if (!defaultModel) return;
 					setOptimisticModelId(defaultModel.id);
 					updateModel.execute({
 						id: chatId,
@@ -116,7 +117,7 @@ export function ModelSelector({
 								setOptimisticModelId(model.id);
 								updateModel.execute({
 									id: chatId,
-									modelId: model.id,
+									model: model.id,
 									revalidatePath: `/chat/${chatId}`,
 								});
 							});

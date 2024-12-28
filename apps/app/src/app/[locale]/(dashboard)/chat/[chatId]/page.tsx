@@ -8,11 +8,13 @@ import {
 	getCredentials,
 } from "@nech/supabase/cached-queries";
 import { ChatHeader } from "@/components/chat-header";
+import type { Database } from "@nech/supabase/types";
 
 export default async function Page({
 	params: { chatId },
 }: { params: { chatId: string } }) {
 	const { data: chat } = await getChat(chatId);
+	// @ts-expect-error
 	const { data: credentials } = await getCredentials();
 	const { data: messages } = await getMessages(chatId);
 
@@ -21,7 +23,8 @@ export default async function Page({
 	}
 
 	const selectedCredential = credentials?.find(
-		(cred) => cred.id === chat.credential_id,
+		(cred: Database["public"]["Tables"]["credentials"]["Row"]) =>
+			cred.id === chat.credential_id,
 	);
 
 	const selectedModelId =

@@ -25,7 +25,6 @@ function isPublicPath(path: string) {
 
 export async function middleware(request: NextRequest) {
 	const { response, user } = await updateSession(
-		// @ts-expect-error
 		request,
 		I18nMiddleware(request),
 	);

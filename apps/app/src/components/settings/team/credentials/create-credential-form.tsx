@@ -14,23 +14,30 @@ import {
 } from "@nech/ui/components/card";
 import { useToast } from "@nech/ui/hooks/use-toast";
 import { useAction } from "next-safe-action/hooks";
-import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { CredentialForm } from "./credential-form";
-
-const formSchema = createCredentialSchema;
-type FormValues = CreateCredentialFormValues;
+import { CredentialFormFields } from "./credential-form-fields";
+import { Button } from "@nech/ui/components/button";
 
 export function CreateCredentialForm() {
 	const { toast } = useToast();
-	const { execute } = useAction(createCredentialAction, {
+	const form = useForm<CreateCredentialFormValues>({
+		resolver: zodResolver(createCredentialSchema),
+		defaultValues: {
+			name: "",
+			provider: "OPENAI",
+			type: "API_KEY",
+			value: "",
+			default_model: undefined,
+			redirectTo: "/settings/team/credentials",
+		},
+	});
+
+	const { execute, status } = useAction(createCredentialAction, {
 		onSuccess: () => {
 			form.reset();
 			toast({
-				title: "Credential created successfully",
-				description:
-					"Your new credential has been created. You can copy it from above the form.",
-				variant: "default",
+				title: "Credential created",
+				description: "Your credential has been created successfully.",
 			});
 		},
 		onError: (error) => {
@@ -42,38 +49,20 @@ export function CreateCredentialForm() {
 		},
 	});
 
-	const form = useForm<FormValues>({
-		resolver: zodResolver(formSchema),
-		defaultValues: {
-			name: "",
-			provider: "OPENAI",
-			type: "API_KEY",
-			value: "",
-			default_model: undefined,
-			redirectTo: "/settings/team/credentials",
-		},
-	});
-
-	const onSubmit: SubmitHandler<FormValues> = (values) => {
-		execute({ ...values });
-	};
-
-	// if (teamMembership?.role !== "OWNER") {
-	// 	return null;
-	// }
-
 	return (
 		<Card>
 			<CardHeader>
 				<CardTitle>Create New Credential</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<CredentialForm
-					form={form}
-					onSubmit={onSubmit}
-					submitText="Create"
-					loadingText="Creating..."
-				/>
+				<form onSubmit={form.handleSubmit((values) => execute(values))}>
+					<CredentialFormFields form={form} />
+					<div className="mt-6 flex justify-end border-t pt-3">
+						<Button type="submit" disabled={status === "executing"}>
+							{status === "executing" ? "Creating..." : "Create"}
+						</Button>
+					</div>
+				</form>
 			</CardContent>
 		</Card>
 	);

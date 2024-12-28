@@ -15,15 +15,6 @@ import type { Database } from "@nech/supabase/types";
 import { useToast } from "@nech/ui/hooks/use-toast";
 import { updateChatAction } from "@/actions/update-chat-action";
 
-type Provider = Database["public"]["Enums"]["provider"];
-
-interface Credential {
-	id: string;
-	name: string;
-	provider: Provider;
-	default_model?: string;
-}
-
 export function CredentialSelector({
 	chatId,
 	credentials,
@@ -31,7 +22,7 @@ export function CredentialSelector({
 	className,
 }: {
 	chatId: string;
-	credentials: Credential[];
+	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
 	selectedCredentialId?: string;
 } & React.ComponentProps<typeof Button>) {
 	const { toast } = useToast();
