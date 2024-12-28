@@ -10,6 +10,15 @@ import {
 import { ChatHeader } from "@/components/chat-header";
 import type { Database } from "@nech/supabase/types";
 
+interface MessageUsage {
+	promptTokens?: number;
+	completionTokens?: number;
+	totalTokens?: number;
+	promptCost?: number;
+	completionCost?: number;
+	totalCost?: number;
+}
+
 export default async function Page(props: {
 	params: Promise<{ chatId: string }>;
 }) {
@@ -31,6 +40,11 @@ export default async function Page(props: {
 	const selectedModelId =
 		chat.model || selectedCredential?.default_model || DEFAULT_MODEL_NAME;
 
+	const totalCost = (messages ?? []).reduce((acc, msg) => {
+		const usage = msg.metadata as MessageUsage | null;
+		return acc + (usage?.totalCost ?? 0);
+	}, 0);
+
 	return (
 		<div className="flex flex-col h-screen">
 			<ChatHeader
@@ -38,6 +52,7 @@ export default async function Page(props: {
 				selectedCredentialId={chat.credential_id}
 				credentials={credentials ?? []}
 				chatId={chat.id}
+				totalCost={totalCost}
 			/>
 			<div className="relative flex-1 overflow-hidden">
 				<Chat

@@ -3,6 +3,7 @@
 import { memo } from "react";
 import { ModelSelector } from "./model-selector";
 import { CredentialSelector } from "./credential-selector";
+import { CostDisplay } from "./cost-display";
 import type { Database } from "@nech/supabase/types";
 
 function PureChatHeader({
@@ -10,11 +11,13 @@ function PureChatHeader({
 	selectedCredentialId,
 	credentials,
 	chatId,
+	totalCost = 0,
 }: {
 	selectedModelId: string;
 	selectedCredentialId?: string;
 	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
 	chatId: string;
+	totalCost?: number;
 }) {
 	const selectedCredential = credentials.find(
 		(cred) => cred.id === selectedCredentialId,
@@ -36,6 +39,7 @@ function PureChatHeader({
 					selectedCredentialId={selectedCredentialId}
 				/>
 			</div>
+			<CostDisplay totalCost={totalCost} />
 		</header>
 	);
 }
@@ -43,6 +47,7 @@ function PureChatHeader({
 export const ChatHeader = memo(PureChatHeader, (prevProps, nextProps) => {
 	return (
 		prevProps.selectedModelId === nextProps.selectedModelId &&
-		prevProps.selectedCredentialId === nextProps.selectedCredentialId
+		prevProps.selectedCredentialId === nextProps.selectedCredentialId &&
+		prevProps.totalCost === nextProps.totalCost
 	);
 });
