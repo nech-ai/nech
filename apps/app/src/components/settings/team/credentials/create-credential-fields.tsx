@@ -1,6 +1,8 @@
 "use client";
 
 import { PROVIDER_OPTIONS, type Provider } from "./types";
+import type { CreateCredentialFormValues } from "@/actions/schema";
+import type { UseFormReturn } from "react-hook-form";
 import {
 	FormField,
 	FormItem,
@@ -18,15 +20,13 @@ import {
 } from "@nech/ui/components/select";
 import { getAvailableModels } from "@/lib/ai/models";
 import { useMemo } from "react";
-import type { UseFormReturn } from "react-hook-form";
-import type { CredentialFormValues } from "./types";
 
-interface CredentialFormFieldsProps {
-	form: UseFormReturn<CredentialFormValues>;
+interface CreateCredentialFieldsProps {
+	form: UseFormReturn<CreateCredentialFormValues>;
 }
 
-export function CredentialFormFields({ form }: CredentialFormFieldsProps) {
-	const selectedProvider = form.watch("provider") as unknown as Provider;
+export function CreateCredentialFields({ form }: CreateCredentialFieldsProps) {
+	const selectedProvider = form.watch("provider") as Provider;
 	const availableModels = useMemo(
 		() => getAvailableModels(selectedProvider),
 		[selectedProvider],

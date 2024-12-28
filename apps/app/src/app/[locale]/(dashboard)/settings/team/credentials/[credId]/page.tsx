@@ -8,11 +8,12 @@ export async function generateMetadata() {
 	};
 }
 
-export default async function UpdateCredentialPage({
-	params,
-}: { params: { credId: string } }) {
+export default async function UpdateCredentialPage(props: {
+	params: Promise<{ credId: string }>;
+}) {
+	const { credId } = await props.params;
 	// @ts-expect-error
-	const { data: credential } = await getCredential(params.credId);
+	const { data: credential } = await getCredential(credId);
 
 	if (!credential) {
 		notFound();

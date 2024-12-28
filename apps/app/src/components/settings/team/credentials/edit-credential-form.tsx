@@ -16,8 +16,9 @@ import { useToast } from "@nech/ui/hooks/use-toast";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import type { Database } from "@nech/supabase/types";
-import { CredentialFormFields } from "./credential-form-fields";
 import { Button } from "@nech/ui/components/button";
+import { UpdateCredentialFields } from "./update-credential-fields";
+import { Form } from "@nech/ui/components/form";
 
 interface EditCredentialFormProps {
 	credential: Database["public"]["Tables"]["credentials"]["Row"];
@@ -60,14 +61,16 @@ export function EditCredentialForm({ credential }: EditCredentialFormProps) {
 				<CardTitle>Edit Credential</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<form onSubmit={form.handleSubmit((values) => execute(values))}>
-					<CredentialFormFields form={form} />
-					<div className="mt-6 flex justify-end border-t pt-3">
-						<Button type="submit" disabled={status === "executing"}>
-							{status === "executing" ? "Saving..." : "Save Changes"}
-						</Button>
-					</div>
-				</form>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit((values) => execute(values))}>
+						<UpdateCredentialFields form={form} />
+						<div className="mt-6 flex justify-end border-t pt-3">
+							<Button type="submit" disabled={status === "executing"}>
+								{status === "executing" ? "Saving..." : "Save Changes"}
+							</Button>
+						</div>
+					</form>
+				</Form>
 			</CardContent>
 		</Card>
 	);

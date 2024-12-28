@@ -57,7 +57,8 @@ export const deleteInviteSchema = z.object({
 
 export type DeleteInviteFormValues = z.infer<typeof deleteInviteSchema>;
 
-export const createCredentialSchema = z.object({
+// Base credential fields shared between create and update
+const credentialBaseFields = {
 	name: z.string().min(2).max(32),
 	provider: z.enum(["OPENAI", "ANTHROPIC", "GOOGLE", "AZURE", "XAI"]),
 	type: z.enum(["API_KEY", "URL"]),
@@ -65,21 +66,21 @@ export const createCredentialSchema = z.object({
 	default_model: z.string().optional(),
 	revalidatePath: z.string().optional(),
 	redirectTo: z.string().optional(),
+} as const;
+
+// Create credential schema
+export const createCredentialSchema = z.object({
+	...credentialBaseFields,
 });
 
-export type CreateCredentialFormValues = z.infer<typeof createCredentialSchema>;
-
+// Update credential schema
 export const updateCredentialSchema = z.object({
 	id: z.string(),
-	name: z.string().min(2).max(32),
-	provider: z.enum(["OPENAI", "ANTHROPIC", "GOOGLE", "AZURE", "XAI"]),
-	type: z.enum(["API_KEY", "URL"]),
-	value: z.string(),
-	default_model: z.string().optional(),
-	revalidatePath: z.string().optional(),
-	redirectTo: z.string().optional(),
+	...credentialBaseFields,
 });
 
+// Separate type definitions
+export type CreateCredentialFormValues = z.infer<typeof createCredentialSchema>;
 export type UpdateCredentialFormValues = z.infer<typeof updateCredentialSchema>;
 
 export const saveModelIdSchema = z.object({

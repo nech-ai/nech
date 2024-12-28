@@ -15,8 +15,9 @@ import {
 import { useToast } from "@nech/ui/hooks/use-toast";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
-import { CredentialFormFields } from "./credential-form-fields";
+import { CreateCredentialFields } from "./create-credential-fields";
 import { Button } from "@nech/ui/components/button";
+import { Form } from "@nech/ui/components/form";
 
 export function CreateCredentialForm() {
 	const { toast } = useToast();
@@ -55,14 +56,16 @@ export function CreateCredentialForm() {
 				<CardTitle>Create New Credential</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<form onSubmit={form.handleSubmit((values) => execute(values))}>
-					<CredentialFormFields form={form} />
-					<div className="mt-6 flex justify-end border-t pt-3">
-						<Button type="submit" disabled={status === "executing"}>
-							{status === "executing" ? "Creating..." : "Create"}
-						</Button>
-					</div>
-				</form>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit((values) => execute(values))}>
+						<CreateCredentialFields form={form} />
+						<div className="mt-6 flex justify-end border-t pt-3">
+							<Button type="submit" disabled={status === "executing"}>
+								{status === "executing" ? "Creating..." : "Create"}
+							</Button>
+						</div>
+					</form>
+				</Form>
 			</CardContent>
 		</Card>
 	);

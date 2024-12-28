@@ -10,9 +10,10 @@ import {
 import { ChatHeader } from "@/components/chat-header";
 import type { Database } from "@nech/supabase/types";
 
-export default async function Page({
-	params: { chatId },
-}: { params: { chatId: string } }) {
+export default async function Page(props: {
+	params: Promise<{ chatId: string }>;
+}) {
+	const { chatId } = await props.params;
 	const { data: chat } = await getChat(chatId);
 	// @ts-expect-error
 	const { data: credentials } = await getCredentials();
