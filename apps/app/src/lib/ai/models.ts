@@ -13,6 +13,12 @@ export interface Model {
 		toolUsage: boolean;
 		toolStreaming: boolean;
 	};
+	cost: {
+		input: number; // Cost per 1K input tokens in USD
+		output: number; // Cost per 1K output tokens in USD
+		total: number; // Total cost per 1K tokens (input + output)
+		context: number; // Context window size in K tokens
+	};
 }
 
 export const DEFAULT_MODEL_NAME = "gpt-4-turbo";
@@ -29,6 +35,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "gpt-4o-mini",
@@ -39,6 +51,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 	{
@@ -51,6 +69,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "gpt-4",
@@ -61,6 +85,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 	{
@@ -73,6 +103,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "o1-mini",
@@ -84,6 +120,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "o1-preview",
@@ -94,6 +136,12 @@ export const models: Model[] = [
 			objectGeneration: true,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 
@@ -108,6 +156,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.003,
+			output: 0.015,
+			total: 0.018,
+			context: 200,
+		},
 	},
 	{
 		id: "claude-3-5-sonnet-20240620",
@@ -119,6 +173,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.003,
+			output: 0.015,
+			total: 0.018,
+			context: 200,
+		},
 	},
 	{
 		id: "claude-3-5-haiku-20241022",
@@ -129,6 +189,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.003,
+			output: 0.015,
+			total: 0.018,
+			context: 200,
 		},
 	},
 
@@ -143,6 +209,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "gemini-1.5-flash",
@@ -154,6 +226,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "gemini-1.5-pro",
@@ -164,6 +242,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 
@@ -178,6 +262,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "grok-2-vision-1212",
@@ -188,6 +278,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 
@@ -202,6 +298,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "mistral-large-latest",
@@ -212,6 +314,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 	{
@@ -224,6 +332,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "pixtral-12b-2409",
@@ -234,6 +348,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 
@@ -248,6 +368,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "llama-3.1-8b-instant",
@@ -258,6 +384,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 	{
@@ -270,6 +402,12 @@ export const models: Model[] = [
 			toolUsage: true,
 			toolStreaming: true,
 		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
+		},
 	},
 	{
 		id: "gemma2-9b-it",
@@ -280,6 +418,12 @@ export const models: Model[] = [
 			objectGeneration: false,
 			toolUsage: true,
 			toolStreaming: true,
+		},
+		cost: {
+			input: 0.005,
+			output: 0.015,
+			total: 0.02,
+			context: 128,
 		},
 	},
 ];

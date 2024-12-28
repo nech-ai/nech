@@ -60,7 +60,15 @@ export type DeleteInviteFormValues = z.infer<typeof deleteInviteSchema>;
 // Base credential fields shared between create and update
 const credentialBaseFields = {
 	name: z.string().min(2).max(32),
-	provider: z.enum(["OPENAI", "ANTHROPIC", "GOOGLE", "AZURE", "XAI"]),
+	provider: z.enum([
+		"OPENAI",
+		"ANTHROPIC",
+		"GOOGLE",
+		"AZURE",
+		"XAI",
+		"GROQ",
+		"MISTRAL",
+	]),
 	type: z.enum(["API_KEY", "URL"]),
 	value: z.string(),
 	default_model: z.string().optional(),

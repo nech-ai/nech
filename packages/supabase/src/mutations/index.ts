@@ -151,7 +151,14 @@ export async function acceptInvitation(
 
 type CreateCredentialParams = {
 	name: string;
-	provider: "OPENAI" | "ANTHROPIC" | "GOOGLE" | "AZURE" | "XAI";
+	provider:
+		| "OPENAI"
+		| "ANTHROPIC"
+		| "GOOGLE"
+		| "AZURE"
+		| "XAI"
+		| "GROQ"
+		| "MISTRAL";
 	type: "API_KEY" | "URL";
 	value: string;
 	createdById: string;
@@ -180,7 +187,14 @@ export async function createCredential(
 type UpdateCredentialParams = {
 	id: string;
 	name: string;
-	provider: "OPENAI" | "ANTHROPIC" | "GOOGLE" | "AZURE" | "XAI";
+	provider:
+		| "OPENAI"
+		| "ANTHROPIC"
+		| "GOOGLE"
+		| "AZURE"
+		| "XAI"
+		| "GROQ"
+		| "MISTRAL";
 	type: "API_KEY" | "URL";
 	value: string;
 	teamId: string;
@@ -257,12 +271,41 @@ type CreateMessageParams = {
 	chatId: string;
 	content: string;
 	role: "user" | "assistant" | "system" | "tool";
+	usage: {
+		promptTokens?: number;
+		completionTokens?: number;
+		totalTokens?: number;
+		promptCost?: number;
+		completionCost?: number;
+		totalCost?: number;
+	};
 };
 
 export async function createMessage(
 	supabase: Client,
 	params: CreateMessageParams,
 ) {
+	const metadata: Record<string, number | undefined> = {};
+	if (params.usage) {
+		if (params.usage.promptTokens) {
+			metadata.promptTokens = params.usage.promptTokens;
+		}
+		if (params.usage.completionTokens) {
+			metadata.completionTokens = params.usage.completionTokens;
+		}
+		if (params.usage.totalTokens) {
+			metadata.totalTokens = params.usage.totalTokens;
+		}
+		if (params.usage.promptCost) {
+			metadata.promptCost = params.usage.promptCost;
+		}
+		if (params.usage.completionCost) {
+			metadata.completionCost = params.usage.completionCost;
+		}
+		if (params.usage.totalCost) {
+			metadata.totalCost = params.usage.totalCost;
+		}
+	}
 	return supabase
 		.from("messages")
 		.insert({
@@ -270,6 +313,7 @@ export async function createMessage(
 			content: params.content,
 			role: params.role,
 			type: "text",
+			metadata,
 		})
 		.select()
 		.single();

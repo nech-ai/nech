@@ -64,6 +64,7 @@ export async function POST(request: Request) {
 		chatId: id,
 		content: userMessage.content as string,
 		role: userMessage.role,
+		usage: {},
 	});
 
 	if (!DBMessage) {
@@ -86,7 +87,7 @@ export async function POST(request: Request) {
 				messages: coreMessages,
 				maxSteps: 5,
 				tools: {},
-				onFinish: async ({ response }) => {
+				onFinish: async ({ response, usage }) => {
 					const responseMessagesWithoutIncompleteToolCalls =
 						sanitizeResponseMessages(response.messages);
 
@@ -99,11 +100,28 @@ export async function POST(request: Request) {
 										)
 										.join("")
 								: message.content;
-							console.log("response", response);
+
+							const usageMetadata: Record<string, number> = {};
+							if (usage) {
+								usageMetadata.promptTokens = usage.promptTokens;
+								usageMetadata.completionTokens = usage.completionTokens;
+								usageMetadata.totalTokens = usage.totalTokens;
+
+								const promptCost =
+									(usage.promptTokens / 1000) * model.cost.input;
+								const completionCost =
+									(usage.completionTokens / 1000) * model.cost.output;
+
+								usageMetadata.promptCost = promptCost;
+								usageMetadata.completionCost = completionCost;
+								usageMetadata.totalCost = promptCost + completionCost;
+							}
+
 							const { data: savedMessage } = await createMessage(supabase, {
 								chatId: id,
 								content,
 								role: message.role,
+								usage: usageMetadata,
 							});
 
 							if (!savedMessage) {
