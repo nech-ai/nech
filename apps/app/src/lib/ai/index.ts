@@ -1,6 +1,9 @@
 import { openai } from "@ai-sdk/openai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { google } from "@ai-sdk/google";
+import { groq } from "@ai-sdk/groq";
+import { xai } from "@ai-sdk/xai";
+import { mistral } from "@ai-sdk/mistral";
 import type { Database } from "@nech/supabase/types";
 import {
 	type LanguageModelV1,
@@ -18,6 +21,12 @@ export const customModel = (modelName: string, provider: Provider) => {
 		model = anthropic(modelName);
 	} else if (provider === "GOOGLE") {
 		model = google(modelName);
+	} else if (provider === "GROQ") {
+		model = groq(modelName);
+	} else if (provider === "XAI") {
+		model = xai(modelName);
+	} else if (provider === "MISTRAL") {
+		model = mistral(modelName);
 	} else {
 		throw new Error("Invalid provider");
 	}

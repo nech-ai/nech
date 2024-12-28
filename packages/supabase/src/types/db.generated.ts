@@ -429,7 +429,14 @@ export type Database = {
 			credential_type: "API_KEY" | "URL";
 			document_kind: "TEXT" | "CODE";
 			message_type: "image" | "text";
-			provider: "OPENAI" | "ANTHROPIC" | "GOOGLE" | "AZURE" | "XAI";
+			provider:
+				| "OPENAI"
+				| "ANTHROPIC"
+				| "GOOGLE"
+				| "AZURE"
+				| "XAI"
+				| "GROQ"
+				| "MISTRAL";
 			role: "user" | "assistant" | "system" | "tool";
 			team_role: "OWNER" | "MEMBER";
 		};

@@ -190,6 +190,98 @@ export const models: Model[] = [
 			toolStreaming: true,
 		},
 	},
+
+	// Mistral Models
+	{
+		id: "pixtral-large-latest",
+		label: "Pixtral Large",
+		provider: "MISTRAL",
+		features: {
+			imageInput: true,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
+	{
+		id: "mistral-large-latest",
+		label: "Mistral Large",
+		provider: "MISTRAL",
+		features: {
+			imageInput: false,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
+	{
+		id: "mistral-small-latest",
+		label: "Mistral Small",
+		provider: "MISTRAL",
+		features: {
+			imageInput: false,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
+	{
+		id: "pixtral-12b-2409",
+		label: "Pixtral 12B",
+		provider: "MISTRAL",
+		features: {
+			imageInput: true,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
+
+	// Groq Models
+	{
+		id: "llama-3.3-70b-versatile",
+		label: "Llama 3.3 70B Versatile",
+		provider: "GROQ",
+		features: {
+			imageInput: false,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
+	{
+		id: "llama-3.1-8b-instant",
+		label: "Llama 3.1 8B Instant",
+		provider: "GROQ",
+		features: {
+			imageInput: false,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
+	{
+		id: "mixtral-8x7b-32768",
+		label: "Mixtral 8x7B 32K",
+		provider: "GROQ",
+		features: {
+			imageInput: false,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
+	{
+		id: "gemma2-9b-it",
+		label: "Gemma 2 9B",
+		provider: "GROQ",
+		features: {
+			imageInput: false,
+			objectGeneration: false,
+			toolUsage: true,
+			toolStreaming: true,
+		},
+	},
 ];
 
 export function getAvailableModels(provider: Provider): Model[] {
