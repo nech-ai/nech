@@ -4,9 +4,9 @@ import { getBlogPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Updates & Announcements | Nech",
+	title: "Product Updates & Engineering Blog | Nech",
 	description:
-		"Follow our journey building the future of AI tooling. Product updates, engineering insights, and announcements.",
+		"Stay updated on Nech's development journey. Read about our latest features, engineering insights, and product announcements as we build the future of AI model management.",
 };
 
 export default async function Page() {

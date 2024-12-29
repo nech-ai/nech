@@ -3,9 +3,9 @@ import Image from "next/image";
 import alex from "public/alex.jpeg";
 
 export const metadata: Metadata = {
-	title: "About the Founder",
+	title: "About Nech - Our Mission & Vision",
 	description:
-		"Meet Alex Vakhitov, the founder of Nech, and learn about his vision for the future of AI tooling.",
+		"Learn about Nech's mission to simplify AI model management. Founded by Alex Vakhitov, we're building an open-source platform to help teams collaborate effectively with AI models.",
 };
 
 export default function Page() {

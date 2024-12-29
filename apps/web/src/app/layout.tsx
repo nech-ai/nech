@@ -8,14 +8,17 @@ import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
 	title: {
-		absolute: "Nech",
-		default: "Nech",
+		absolute: "Nech - Open Source AI Management Platform for Teams",
+		default: "Nech - AI Management Platform for Teams",
 		template: "%s | Nech",
 	},
-	description: "Nech",
+	applicationName: "Nech",
+	description:
+		"Nech is an open-source platform that unifies ChatGPT, Claude, LLaMA, Mistral and other AI models in one secure interface. Built for teams to collaborate, manage and optimise AI workflows.",
 	openGraph: {
-		title: "Nech",
-		description: "Nech",
+		title: "Nech - Open Source AI Model Management Platform",
+		description:
+			"Unify all AI models in one secure, collaborative platform. Manage ChatGPT, Claude, LLaMA, Mistral and more with enterprise-grade security and team features.",
 		url: "https://nech.ai",
 		siteName: "Nech",
 		images: [
@@ -23,7 +26,7 @@ export const metadata: Metadata = {
 				url: "https://nech.ai/opengraph-image.png",
 				width: 800,
 				height: 600,
-				alt: "Nech",
+				alt: "Nech AI Platform Interface",
 			},
 		],
 		locale: "en_GB",
@@ -31,13 +34,59 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Nech",
-		description: "Nech",
+		title: "Nech - Open Source AI Model Management Platform",
+		description:
+			"The open-source platform for teams to manage, collaborate and optimize their AI model usage across ChatGPT, Claude, LLaMA, Mistral and more.",
 		images: [
 			{
 				url: "https://nech.ai/twitter-image.png",
 			},
 		],
+		creator: "@vahaah",
+		site: "@nechai_",
+	},
+	metadataBase: new URL("https://nech.ai"),
+
+	alternates: {
+		canonical: "/",
+		languages: {
+			"en-GB": "/en-gb",
+		},
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			"max-video-preview": -1,
+			"max-image-preview": "large",
+			"max-snippet": -1,
+		},
+	},
+	authors: [{ name: "Alex Vakhitov" }],
+	creator: "Alex Vakhitov",
+	publisher: "Alex Vakhitov",
+	keywords: [
+		"AI platform",
+		"ChatGPT management",
+		"Claude AI",
+		"LLaMA",
+		"Mistral AI",
+		"team collaboration",
+		"AI workflow",
+		"enterprise AI",
+		"open source AI",
+	],
+	icons: {
+		icon: "/favicon.ico",
+		apple: "/apple-touch-icon.png",
+	},
+	other: {
+		"twitter:label1": "Open Source",
+		"twitter:data1": "Yes",
+		"twitter:label2": "Available for",
+		"twitter:data2": "Teams & Enterprise",
 	},
 };
 
@@ -47,8 +96,8 @@ export const viewport = {
 	maximumScale: 1,
 	userScalable: false,
 	themeColor: [
-		{ media: "(prefers-color-scheme: light)" },
-		{ media: "(prefers-color-scheme: dark)" },
+		{ media: "(prefers-color-scheme: light)", color: "#000000" },
+		{ media: "(prefers-color-scheme: dark)", color: "#000000" },
 	],
 };
 
@@ -61,6 +110,53 @@ export default function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<head>
 				<PlausibleProvider domain="nech.ai" />
+				<script
+					type="application/ld+json"
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: known good
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "SoftwareApplication",
+							name: "Nech",
+							applicationCategory: "BusinessApplication",
+							operatingSystem: "Web",
+							description:
+								"Open-source platform that unifies ChatGPT, Claude, LLaMA, Mistral and other AI models in one secure interface",
+							offers: {
+								"@type": "Offer",
+								price: "0",
+								priceCurrency: "USD",
+							},
+							aggregateRating: {
+								"@type": "AggregateRating",
+								ratingValue: "5",
+								ratingCount: "1",
+							},
+							url: "https://nech.ai",
+							image: "https://nech.ai/icon.png",
+							applicationSuite: "AI Management",
+							featureList:
+								"ChatGPT Integration, Claude Integration, LLaMA Integration, Team Collaboration, Enterprise Security",
+							softwareVersion: "1.0",
+							author: {
+								"@type": "Person",
+								name: "Alex Vakhitov",
+							},
+							provider: {
+								"@type": "Organization",
+								name: "Nech",
+								url: "https://nech.ai",
+								sameAs: [
+									"https://github.com/nech-ai",
+									"https://twitter.com/nechai_",
+								],
+							},
+							category: "AI Tools",
+							applicationSubCategory: "Team Collaboration",
+							releaseNotes: "https://nech.ai/updates",
+						}),
+					}}
+				/>
 			</head>
 			<body
 				className={cn(
