@@ -42,7 +42,7 @@ export default function Page() {
 								the complexity of managing multiple AI providers. Engineers and
 								product teams waste countless hours switching between different
 								interfaces, managing API keys, and reinventing collaboration
-								patterns. I realized that the missing piece wasn't another AI
+								patterns. I realised that the missing piece wasn't another AI
 								model—it was a unified platform that could bring order to this
 								chaos.
 							</p>
@@ -76,14 +76,18 @@ export default function Page() {
 							</p>
 						</section>
 
-						<Image
-							src={alex}
-							width={800}
-							height={514}
-							alt="Alex Vakhitov"
-							className="rounded-lg border border-gray-800/50"
-							priority
-						/>
+						<section>
+							<div className="flex justify-center">
+								<Image
+									src={alex}
+									width={450}
+									height={290}
+									alt="Alex Vakhitov"
+									className="rounded-lg border border-gray-800/50"
+									priority
+								/>
+							</div>
+						</section>
 
 						<div className="flex items-center pt-6 border-t border-gray-800">
 							<div className="space-y-1">

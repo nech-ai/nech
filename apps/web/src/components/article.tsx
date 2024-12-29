@@ -39,8 +39,8 @@ export function Article({ data, firstPost }: Props) {
 						<Image
 							src={data.metadata.image}
 							alt={data.metadata.title}
-							width={680}
-							height={442}
+							width={980}
+							height={637}
 							className="rounded-lg mb-12 transition-transform group-hover:scale-[1.02]"
 						/>
 					)}
