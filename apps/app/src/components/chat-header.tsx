@@ -1,27 +1,39 @@
 "use client";
-
-import { memo } from "react";
 import { ModelSelector } from "./model-selector";
 import { CredentialSelector } from "./credential-selector";
 import { CostDisplay } from "./cost-display";
 import type { Database } from "@nech/supabase/types";
+import { useState } from "react";
+import { useEffect } from "react";
 
-function PureChatHeader({
+export function ChatHeader({
 	selectedModelId,
 	selectedCredentialId,
 	credentials,
 	chatId,
-	totalCost = 0,
+	initialTotalCost,
+	reloadTotalCost,
 }: {
 	selectedModelId: string;
 	selectedCredentialId?: string;
 	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
 	chatId: string;
-	totalCost?: number;
+	initialTotalCost: number;
+	reloadTotalCost: (chatId: string) => Promise<number | null>;
 }) {
 	const selectedCredential = credentials.find(
 		(cred) => cred.id === selectedCredentialId,
 	);
+
+	const [totalCost, setTotalCost] = useState(initialTotalCost);
+
+	useEffect(() => {
+		const interval = setInterval(async () => {
+			const totalCost = await reloadTotalCost(chatId);
+			setTotalCost(totalCost ?? 0);
+		}, 2000);
+		return () => clearInterval(interval);
+	}, [chatId, reloadTotalCost]);
 
 	return (
 		<header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -43,11 +55,3 @@ function PureChatHeader({
 		</header>
 	);
 }
-
-export const ChatHeader = memo(PureChatHeader, (prevProps, nextProps) => {
-	return (
-		prevProps.selectedModelId === nextProps.selectedModelId &&
-		prevProps.selectedCredentialId === nextProps.selectedCredentialId &&
-		prevProps.totalCost === nextProps.totalCost
-	);
-});

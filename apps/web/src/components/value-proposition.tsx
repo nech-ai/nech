@@ -179,12 +179,12 @@ export function ValueProposition() {
 							</p>
 						</div>
 
-						<div className="flex-1">
+						<div className="flex-1 w-full">
 							<motion.div
-								className="relative p-8 rounded-2xl border border-gray-800 bg-black/50 backdrop-blur"
+								className="relative p-8 rounded-2xl border border-gray-800 bg-black/50 backdrop-blur w-full"
 								variants={fadeInUp}
 							>
-								<div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+								<div className="grid grid-cols-3 gap-4 sm:gap-6">
 									{models.map((model, i) => {
 										const Icon = model.icon;
 										return (
@@ -197,9 +197,11 @@ export function ValueProposition() {
 													flex items-center justify-center group cursor-pointer
 													hover:border-gray-700 transition-colors"
 											>
-												<div className="flex flex-col items-center gap-3">
-													<div className="w-14 h-14 rounded-xl bg-gray-800/50 flex items-center justify-center">
-														<Icon className={`h-8 w-8 ${model.color}`} />
+												<div className="flex flex-col items-center gap-2 sm:gap-3">
+													<div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-gray-800/50 flex items-center justify-center">
+														<Icon
+															className={`h-6 w-6 sm:h-8 sm:w-8 ${model.color}`}
+														/>
 													</div>
 												</div>
 											</motion.div>

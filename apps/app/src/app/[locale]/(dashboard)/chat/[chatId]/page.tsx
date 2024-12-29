@@ -6,6 +6,7 @@ import {
 	getChat,
 	getMessages,
 	getCredentials,
+	getChatTotalCost,
 } from "@nech/supabase/cached-queries";
 import { ChatHeader } from "@/components/chat-header";
 import type { Database } from "@nech/supabase/types";
@@ -40,10 +41,14 @@ export default async function Page(props: {
 	const selectedModelId =
 		chat.model || selectedCredential?.default_model || DEFAULT_MODEL_NAME;
 
-	const totalCost = (messages ?? []).reduce((acc, msg) => {
-		const usage = msg.metadata as MessageUsage | null;
-		return acc + (usage?.totalCost ?? 0);
-	}, 0);
+	const { data: totalCost } = await getChatTotalCost(chat.id);
+
+	async function reloadTotalCost(chatId: string) {
+		"use server";
+
+		const { data: totalCost } = await getChatTotalCost(chatId);
+		return totalCost;
+	}
 
 	return (
 		<div className="flex flex-col h-screen">
@@ -52,7 +57,8 @@ export default async function Page(props: {
 				selectedCredentialId={chat.credential_id}
 				credentials={credentials ?? []}
 				chatId={chat.id}
-				totalCost={totalCost}
+				initialTotalCost={totalCost ?? 0}
+				reloadTotalCost={reloadTotalCost}
 			/>
 			<div className="relative flex-1 overflow-hidden">
 				<Chat

@@ -8,7 +8,10 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { SubscribeModal } from "./subscribe-modal";
 
-const navItems: { href: string; label: string }[] = [];
+const navItems: { href: string; label: string }[] = [
+	{ href: "/about", label: "About" },
+	{ href: "/updates", label: "Updates" },
+];
 
 export function Nav() {
 	const [isModalOpen, setIsModalOpen] = useState(false);

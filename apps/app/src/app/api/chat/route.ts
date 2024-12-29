@@ -13,11 +13,9 @@ import {
 	getMostRecentUserMessage,
 	sanitizeResponseMessages,
 } from "@/lib/utils";
-import {
-	getChatQuery,
-	getCredentialByIdWithTokenQuery,
-} from "@nech/supabase/queries";
+import { getCredentialByIdWithTokenQuery } from "@nech/supabase/queries";
 import { createMessage } from "@nech/supabase/mutations";
+import { revalidateTag } from "next/cache";
 
 export const maxDuration = 60;
 
@@ -48,9 +46,6 @@ export async function POST(request: Request) {
 	if (!userMessage) {
 		return new Response("No user message found", { status: 400 });
 	}
-
-	const { data: chat } = await getChatQuery(supabase, id);
-
 	const { data: credential } = await getCredentialByIdWithTokenQuery(
 		supabase,
 		credentialId,
@@ -135,6 +130,7 @@ export async function POST(request: Request) {
 							}
 						}),
 					);
+					revalidateTag(`chat_total_cost_${id}`);
 				},
 				experimental_telemetry: {
 					isEnabled: true,

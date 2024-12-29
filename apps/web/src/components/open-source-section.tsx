@@ -43,11 +43,11 @@ export function OpenSourceSection() {
 							with a transparent and flexible platform.
 						</p>
 
-						<div className="flex flex-col sm:flex-row gap-4">
+						<div className="flex flex-row gap-4">
 							<GitHubButton size="lg">View on GitHub</GitHubButton>
 							<motion.a
 								href="https://github.com/nech-ai/nech/stargazers"
-								className="inline-flex items-center justify-center rounded-lg border border-gray-800 bg-black/50 px-6 py-3 text-sm font-medium text-gray-300 backdrop-blur hover:bg-gray-900 hover:text-white transition-colors"
+								className="inline-flex items-center justify-center rounded-lg border border-gray-800 bg-black/50 px-6 py-3 text-sm font-medium text-gray-300 backdrop-blur hover:bg-gray-900 hover:text-white transition-colors whitespace-nowrap"
 								whileHover={{ y: -2 }}
 							>
 								<Star className="mr-2 h-4 w-4" />

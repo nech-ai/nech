@@ -109,7 +109,7 @@ const features = [
 
 export function FeaturesSection() {
 	return (
-		<section className="relative py-32">
+		<section className="relative py-32" id="features">
 			<motion.div
 				className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
 				initial="initial"

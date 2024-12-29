@@ -23,11 +23,6 @@ port = 54322
 port = 54323
 openai_api_key = "env(OPENAI_API_KEY)"
 
-[auth.external.google]
-enabled = true
-client_id = "env(GOOGLE_CLIENT_ID)"
-secret = "env(GOOGLE_SECRET)"
-redirect_uri = "http://localhost:54321/auth/v1/callback"
 
 [auth.email]
 double_confirm_changes = true

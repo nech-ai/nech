@@ -410,6 +410,12 @@ export type Database = {
 				};
 				Returns: string;
 			};
+			get_chat_total_cost: {
+				Args: {
+					chat_id: string;
+				};
+				Returns: number;
+			};
 			is_member_of: {
 				Args: {
 					_user_id: string;

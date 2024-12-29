@@ -15,6 +15,7 @@ import {
 	getTeamChatsQuery,
 	getChatQuery,
 	getChatMessagesQuery,
+	getChatTotalCostQuery,
 } from "../queries";
 
 export const getSession = cache(async () => {
@@ -249,6 +250,21 @@ export const getMessages = async (chatId: string) => {
 		{
 			tags: [`chat_messages_${chatId}`],
 			revalidate: 180,
+		},
+	)();
+};
+
+export const getChatTotalCost = async (chatId: string) => {
+	const supabase = await createClient();
+
+	return unstable_cache(
+		async () => {
+			return getChatTotalCostQuery(supabase, chatId);
+		},
+		["chat", "total_cost", chatId],
+		{
+			tags: [`chat_total_cost_${chatId}`],
+			revalidate: 1,
 		},
 	)();
 };

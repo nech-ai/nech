@@ -194,3 +194,7 @@ export async function getChatQuery(supabase: Client, chatId: string) {
 export async function getChatMessagesQuery(supabase: Client, chatId: string) {
 	return supabase.from("messages").select("*").eq("chat_id", chatId);
 }
+
+export async function getChatTotalCostQuery(supabase: Client, chatId: string) {
+	return supabase.rpc("get_chat_total_cost", { chat_id: chatId });
+}
