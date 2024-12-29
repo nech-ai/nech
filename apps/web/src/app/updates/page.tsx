@@ -1,13 +1,14 @@
 import { Article } from "@/components/article";
 import { UpdatesToolbar } from "@/components/updates-toolbar";
 import { getBlogPosts } from "@/lib/blog";
-import type { Metadata } from "next";
+import { generateMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = generateMetadata({
 	title: "Product Updates & Engineering Blog | Nech",
 	description:
 		"Stay updated on Nech's development journey. Read about our latest features, engineering insights, and product announcements as we build the future of AI model management.",
-};
+	path: "/updates",
+});
 
 export default async function Page() {
 	const data = getBlogPosts();

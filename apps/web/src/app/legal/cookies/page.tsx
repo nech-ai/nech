@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+import { generateMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-	title: "Cookie Policy",
+export const metadata = generateMetadata({
+	title: "Cookie Policy | Nech",
 	description: "Cookie Policy for Nech.ai",
-};
+	path: "/legal/cookies",
+	noIndex: true,
+});
 
 export default function CookiesPage() {
 	return (

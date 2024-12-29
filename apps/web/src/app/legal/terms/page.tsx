@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+import { generateMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-	title: "Terms & Conditions",
-	description: "Terms & Conditions for the Nech.ai Waitlist",
-};
+export const metadata = generateMetadata({
+	title: "Terms & Conditions | Nech",
+	description: "Terms & Conditions for the Nech.ai",
+	path: "/legal/terms",
+	noIndex: true,
+});
 
 export default function TermsPage() {
 	return (

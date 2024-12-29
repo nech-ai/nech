@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
+import { generateMetadata } from "@/lib/metadata";
 import Image from "next/image";
-import alex from "public/alex.jpeg";
 
-export const metadata: Metadata = {
+export const metadata = generateMetadata({
 	title: "About Nech - Our Mission & Vision",
 	description:
 		"Learn about Nech's mission to simplify AI model management. Founded by Alex Vakhitov, we're building an open-source platform to help teams collaborate effectively with AI models.",
-};
+	path: "/about",
+});
 
 export default function Page() {
 	return (
@@ -79,7 +79,7 @@ export default function Page() {
 						<section>
 							<div className="flex justify-center">
 								<Image
-									src={alex}
+									src={"/alex.jpeg"}
 									width={450}
 									height={290}
 									alt="Alex Vakhitov"

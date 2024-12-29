@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+import { generateMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-	title: "Privacy Policy",
-	description: "Privacy Policy for the Nech.ai Waitlist",
-};
+export const metadata = generateMetadata({
+	title: "Privacy Policy | Nech",
+	description: "Privacy Policy for the Nech.ai",
+	path: "/legal/privacy",
+	noIndex: true,
+});
 
 export default function PrivacyPage() {
 	return (
