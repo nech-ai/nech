@@ -1,8 +1,6 @@
 "use client";
 
 import { MessageSquareIcon, SettingsIcon } from "lucide-react";
-import type * as React from "react";
-
 import type { TeamMembership, User } from "@nech/supabase/types";
 import {
 	Sidebar,
@@ -16,6 +14,7 @@ import {
 import { NavMain } from "./nav-main";
 import { TeamSwitcher } from "./team-switcher";
 import { Logo } from "./logo";
+import { useTeam } from "@/hooks/use-team";
 
 const data = {
 	navMain: [
@@ -32,16 +31,17 @@ const data = {
 	],
 };
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-	user: User;
-	activeTeamId: string | null;
+interface AppSidebarProps {
 	teamMemberships: TeamMembership[];
+	user: User;
 }
 
-export function AppSidebar({ ...props }: AppSidebarProps) {
+export function AppSidebar({ teamMemberships, user }: AppSidebarProps) {
+	const { teamId } = useTeam();
 	const { open } = useSidebar();
+
 	return (
-		<Sidebar collapsible="icon" {...props}>
+		<Sidebar collapsible="icon">
 			<SidebarHeader>
 				<div className="flex w-full items-center justify-between">
 					<Logo withLabel={false} />
@@ -53,10 +53,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
 			</SidebarContent>
 			<SidebarFooter>
 				{!open && <SidebarTrigger />}
-				<TeamSwitcher
-					activeTeamId={props.activeTeamId}
-					teamMemberships={props.teamMemberships}
-				/>
+				<TeamSwitcher teamMemberships={teamMemberships} activeTeamId={teamId} />
 			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>

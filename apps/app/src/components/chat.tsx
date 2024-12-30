@@ -37,7 +37,7 @@ export function Chat({
 	const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
 	return (
-		<div className="flex flex-col h-full">
+		<div className="flex flex-col h-full relative">
 			{/* Messages Container */}
 			<div className="flex-1 overflow-y-auto">
 				<div className="mx-auto max-w-3xl px-4">
@@ -54,7 +54,7 @@ export function Chat({
 			</div>
 
 			{/* Input Container */}
-			<div className="border-t bg-background/95 backdrop-blur">
+			<div className="border-t bg-background/95 backdrop-blur sticky bottom-0">
 				<div className="pointer-events-none absolute inset-x-0 -top-12 h-12 bg-gradient-to-t from-background to-transparent" />
 				<div className="mx-auto max-w-3xl p-4">
 					<form

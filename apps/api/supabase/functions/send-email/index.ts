@@ -1,4 +1,4 @@
-import { WelcomeEmail } from "@nech/emails/welcome";
+import { NewUser } from "@nech/mailing/emails/NewUser";
 import React from "react";
 import { render } from "react-email/components";
 import { Resend } from "resend";
@@ -36,12 +36,18 @@ Deno.serve(async (req) => {
 
 	switch (email_action_type) {
 		case "signup": {
-			const html = await render(React.createElement(WelcomeEmail));
+			const html = await render(
+				React.createElement(NewUser, {
+					url: redirect_to,
+					name: user.email,
+					otp: token,
+				}),
+			);
 
 			await resend.emails.send({
-				from: "Create v1 <onboarding@resend.dev>",
+				from: "Nech.AI <hello@mail.nech.ai>",
 				to: [user.email],
-				subject: "Welcome to v1",
+				subject: "Welcome to Nech.AI!",
 				html,
 			});
 

@@ -34,7 +34,11 @@ export function ActionBlock({
 }: ActionBlockProps) {
 	return (
 		<Card
-			className={cn(className, danger ? "border border-destructive/50" : "")}
+			className={cn(
+				className,
+				danger ? "border border-destructive/50" : "",
+				"w-full",
+			)}
 		>
 			<form
 				onSubmit={(e) => {

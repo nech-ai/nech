@@ -3,24 +3,25 @@ import { ModelSelector } from "./model-selector";
 import { CredentialSelector } from "./credential-selector";
 import { CostDisplay } from "./cost-display";
 import type { Database } from "@nech/supabase/types";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export function ChatHeader({
-	selectedModelId,
-	selectedCredentialId,
-	credentials,
-	chatId,
-	initialTotalCost,
-	reloadTotalCost,
-}: {
+interface ChatControlsProps {
 	selectedModelId: string;
 	selectedCredentialId?: string;
 	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
 	chatId: string;
 	initialTotalCost: number;
 	reloadTotalCost: (chatId: string) => Promise<number | null>;
-}) {
+}
+
+export function ChatControls({
+	selectedModelId,
+	selectedCredentialId,
+	credentials,
+	chatId,
+	initialTotalCost,
+	reloadTotalCost,
+}: ChatControlsProps) {
 	const selectedCredential = credentials.find(
 		(cred) => cred.id === selectedCredentialId,
 	);
@@ -36,7 +37,7 @@ export function ChatHeader({
 	}, [chatId, reloadTotalCost]);
 
 	return (
-		<header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+		<div className="flex items-center justify-between w-full">
 			<div className="flex items-center gap-3">
 				<ModelSelector
 					selectedModelId={selectedModelId}
@@ -52,6 +53,6 @@ export function ChatHeader({
 				/>
 			</div>
 			<CostDisplay totalCost={totalCost} />
-		</header>
+		</div>
 	);
 }

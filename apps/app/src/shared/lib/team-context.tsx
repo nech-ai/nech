@@ -2,7 +2,7 @@
 
 import { signOutAction } from "@/actions/sign-out-action";
 import { config } from "@config";
-import type { TeamMembership } from "@nech/supabase/types";
+import type { TeamMembership, User } from "@nech/supabase/types";
 import { useAction } from "next-safe-action/hooks";
 import type { PropsWithChildren } from "react";
 import { createContext, useEffect, useState } from "react";
@@ -12,6 +12,7 @@ type TeamContext = {
 	reloadTeamId: (teamId: string) => Promise<void>;
 	teamMembership: TeamMembership | null;
 	allTeamMemberships: TeamMembership[];
+	user: User;
 };
 
 const teamBroadcastChannel = new BroadcastChannel("team");
@@ -25,15 +26,18 @@ export const teamContext = createContext<TeamContext>({
 	reloadTeamId: () => Promise.resolve(),
 	teamMembership: null,
 	allTeamMemberships: [],
+	user: {} as User,
 });
 
 export function TeamContextProvider({
 	children,
 	initialTeamId,
 	allTeamMemberships,
+	user,
 }: PropsWithChildren<{
 	initialTeamId: string | null;
 	allTeamMemberships: TeamMembership[];
+	user: User;
 }>) {
 	const [teamId, setTeamId] = useState<string | null>(initialTeamId);
 	const signOut = useAction(signOutAction);
@@ -83,6 +87,7 @@ export function TeamContextProvider({
 				reloadTeamId,
 				teamMembership,
 				allTeamMemberships,
+				user,
 			}}
 		>
 			{children}

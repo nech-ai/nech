@@ -3,26 +3,20 @@
 import { ActionBlock } from "@/components/shared/action-block";
 import type { Database } from "@nech/supabase/types";
 import { ChatList } from "./chat-list";
-import { Button } from "@nech/ui/components/button";
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import { CreateChatDialog } from "./create-chat-dialog";
 
 export function ChatsBlock({
 	chats,
+	credentials,
 }: {
 	chats: Database["public"]["Tables"]["chats"]["Row"][];
+	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
 }) {
 	return (
 		<ActionBlock
 			title="Chats"
-			action={
-				<Button asChild size="sm">
-					<Link href="/chat/create">
-						<Plus className="mr-2 h-4 w-4" />
-						Create
-					</Link>
-				</Button>
-			}
+			action={<CreateChatDialog credentials={credentials} />}
+			className="w-full"
 		>
 			<ChatList chats={chats} />
 		</ActionBlock>
