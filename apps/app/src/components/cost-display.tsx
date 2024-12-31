@@ -14,7 +14,7 @@ export function CostDisplay({ totalCost, className }: CostDisplayProps) {
 				className,
 			)}
 		>
-			<span>Total Cost:</span>
+			<span>Cost:</span>
 			<span className="font-medium">${totalCost.toFixed(4)}</span>
 		</div>
 	);

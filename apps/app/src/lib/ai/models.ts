@@ -27,7 +27,7 @@ export const models: Model[] = [
 	// OpenAI Models
 	{
 		id: "gpt-4o",
-		label: "GPT-4o",
+		label: "4o",
 		provider: "OPENAI",
 		features: {
 			imageInput: false,
@@ -44,7 +44,7 @@ export const models: Model[] = [
 	},
 	{
 		id: "gpt-4o-mini",
-		label: "GPT-4o Mini",
+		label: "4o Mini",
 		provider: "OPENAI",
 		features: {
 			imageInput: false,
@@ -61,7 +61,7 @@ export const models: Model[] = [
 	},
 	{
 		id: "gpt-4-turbo",
-		label: "GPT-4 Turbo",
+		label: "4 Turbo",
 		provider: "OPENAI",
 		features: {
 			imageInput: false,
@@ -78,7 +78,7 @@ export const models: Model[] = [
 	},
 	{
 		id: "gpt-4",
-		label: "GPT-4",
+		label: "4",
 		provider: "OPENAI",
 		features: {
 			imageInput: false,

@@ -14,7 +14,7 @@ export const generateChatTitleAction = authActionClient
 	.action(
 		async ({
 			parsedInput: { content, chatId, revalidatePath },
-			ctx: { user, supabase },
+			ctx: { supabase },
 		}) => {
 			const { text: title } = await generateText({
 				model: customModel("gpt-4o-mini", "OPENAI"),
