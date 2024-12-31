@@ -1,30 +1,21 @@
 "use client";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@nech/ui/components/tooltip";
 import { cn } from "@/lib/utils";
-import { AnimatedNumber } from "./animated-number";
 
-export function CostDisplay({
-	className,
-	totalCost = 0,
-}: {
+interface CostDisplayProps {
+	totalCost: number;
 	className?: string;
-	totalCost?: number;
-}) {
+}
+
+export function CostDisplay({ totalCost, className }: CostDisplayProps) {
 	return (
-		<TooltipProvider>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<div className={cn("flex items-center gap-2 text-sm", className)}>
-						<AnimatedNumber value={totalCost} />
-					</div>
-				</TooltipTrigger>
-				<TooltipContent>Total cost for this chat</TooltipContent>
-			</Tooltip>
-		</TooltipProvider>
+		<div
+			className={cn(
+				"flex items-center gap-2 text-sm text-muted-foreground",
+				className,
+			)}
+		>
+			<span>Total Cost:</span>
+			<span className="font-medium">${totalCost.toFixed(4)}</span>
+		</div>
 	);
 }

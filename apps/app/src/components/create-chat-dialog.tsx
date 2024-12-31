@@ -23,7 +23,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@nech/ui/components/select";
-import { Input } from "@nech/ui/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -33,7 +32,6 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import type { Tables } from "@nech/supabase/types";
 
 const createChatSchema = z.object({
-	title: z.string().min(1, "Title is required"),
 	credentialId: z.string().min(1, "Credential is required"),
 	model: z.string().min(1, "Model is required"),
 });
@@ -49,7 +47,6 @@ export function CreateChatDialog({ credentials }: CreateChatDialogProps) {
 	const form = useForm<CreateChatFormValues>({
 		resolver: zodResolver(createChatSchema),
 		defaultValues: {
-			title: "",
 			credentialId: "",
 			model: "gpt-4",
 		},
@@ -76,19 +73,6 @@ export function CreateChatDialog({ credentials }: CreateChatDialogProps) {
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-						<FormField
-							control={form.control}
-							name="title"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Title</FormLabel>
-									<FormControl>
-										<Input placeholder="Chat title" {...field} />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
 						<FormField
 							control={form.control}
 							name="credentialId"

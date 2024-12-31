@@ -16,6 +16,8 @@ import {
 import { getCredentialByIdWithTokenQuery } from "@nech/supabase/queries";
 import { createMessage } from "@nech/supabase/mutations";
 import { revalidateTag } from "next/cache";
+import { generateChatTitleAction } from "@/actions/generate-chat-title-action";
+import { getChat } from "@nech/supabase/cached-queries";
 
 export const maxDuration = 60;
 
@@ -53,6 +55,19 @@ export async function POST(request: Request) {
 
 	if (!credential) {
 		return new Response("No credential found", { status: 404 });
+	}
+
+	const { data: chat } = await getChat(id);
+
+	if (!chat) {
+		return new Response("Chat not found", { status: 404 });
+	}
+
+	if (chat.title === "New chat") {
+		await generateChatTitleAction({
+			content: userMessage.content as string,
+			chatId: id,
+		});
 	}
 
 	const { data: DBMessage } = await createMessage(supabase, {

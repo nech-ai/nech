@@ -59,3 +59,10 @@ tailwind.css
 
 # Trigger
 .trigger
+*.tsbuildinfo
+*.ipa
+*.apk
+*.aab
+apps/mobile/.idea
+apps/mobile/ios
+apps/mobile/android

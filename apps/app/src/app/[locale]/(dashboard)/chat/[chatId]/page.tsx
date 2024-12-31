@@ -15,6 +15,9 @@ import { ChevronLeftIcon } from "lucide-react";
 import { Button } from "@nech/ui/components/button";
 import { AlertCircleIcon } from "lucide-react";
 import { EmptyState } from "@/components/empty-state";
+import { TruncatedText } from "@/components/truncated-text";
+import { Sheet, SheetContent, SheetTrigger } from "@nech/ui/components/sheet";
+import { Settings2Icon } from "lucide-react";
 
 export default async function Page(props: {
 	params: Promise<{ chatId: string }>;
@@ -59,8 +62,8 @@ export default async function Page(props: {
 
 	return (
 		<div className="flex flex-col h-full">
-			<ContentHeader>
-				<div className="flex items-center gap-3 min-w-0">
+			<ContentHeader className="flex-col sm:flex-row gap-2 sm:gap-0">
+				<div className="flex items-center gap-4 min-w-0 px-4 w-full">
 					<Link
 						href="/chat"
 						className="text-muted-foreground hover:text-foreground p-1.5 rounded-md hover:bg-muted transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -68,23 +71,47 @@ export default async function Page(props: {
 					>
 						<ChevronLeftIcon className="h-4 w-4" aria-hidden="true" />
 					</Link>
-					<div className="flex flex-col min-w-0">
-						<h1 className="text-lg font-semibold leading-none truncate">
-							Chat
-						</h1>
-						<p className="text-sm text-muted-foreground mt-1 truncate">
-							{selectedModelId}
-						</p>
+					<div className="flex-1 min-w-0">
+						<TruncatedText
+							text={chat.title}
+							className="text-lg font-semibold leading-7"
+						/>
+					</div>
+
+					{/* Mobile Controls */}
+					<div className="sm:hidden">
+						<Sheet>
+							<SheetTrigger asChild>
+								<Button variant="ghost" size="icon" className="shrink-0">
+									<Settings2Icon className="h-4 w-4" />
+								</Button>
+							</SheetTrigger>
+							<SheetContent side="right" className="w-full sm:w-[400px]">
+								<ChatControls
+									selectedModelId={selectedModelId}
+									selectedCredentialId={chat.credential_id}
+									credentials={credentials ?? []}
+									chatId={chat.id}
+									initialTotalCost={totalCost ?? 0}
+									reloadTotalCost={reloadTotalCost}
+									className="flex-col gap-4"
+								/>
+							</SheetContent>
+						</Sheet>
 					</div>
 				</div>
-				<ChatControls
-					selectedModelId={selectedModelId}
-					selectedCredentialId={chat.credential_id}
-					credentials={credentials ?? []}
-					chatId={chat.id}
-					initialTotalCost={totalCost ?? 0}
-					reloadTotalCost={reloadTotalCost}
-				/>
+
+				{/* Desktop Controls */}
+				<div className="hidden sm:block">
+					<ChatControls
+						selectedModelId={selectedModelId}
+						selectedCredentialId={chat.credential_id}
+						credentials={credentials ?? []}
+						chatId={chat.id}
+						initialTotalCost={totalCost ?? 0}
+						reloadTotalCost={reloadTotalCost}
+					/>
+				</div>
 			</ContentHeader>
 
 			<main className="flex-1 relative bg-muted/5 overflow-hidden">

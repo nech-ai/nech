@@ -9,10 +9,7 @@ import { createChatSchema } from "./schema";
 export const createChatAction = authActionClient
 	.schema(createChatSchema)
 	.action(
-		async ({
-			parsedInput: { title, credentialId },
-			ctx: { supabase, user },
-		}) => {
+		async ({ parsedInput: { credentialId }, ctx: { supabase, user } }) => {
 			if (!user?.team_id) {
 				return;
 			}
@@ -25,7 +22,7 @@ export const createChatAction = authActionClient
 
 			// @ts-expect-error - TODO: fix this
 			const { data: chat } = await createChat(supabase, {
-				title,
+				title: "New chat",
 				credentialId,
 				model: credential?.default_model ?? DEFAULT_MODEL_NAME,
 			});

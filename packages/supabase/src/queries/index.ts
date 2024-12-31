@@ -184,7 +184,11 @@ export async function getCredentialByIdWithTokenQuery(
 }
 
 export async function getTeamChatsQuery(supabase: Client, teamId: string) {
-	return supabase.from("chats").select("*").eq("team_id", teamId);
+	return supabase
+		.from("chats")
+		.select("*")
+		.eq("team_id", teamId)
+		.order("updated_at", { ascending: false });
 }
 
 export async function getChatQuery(supabase: Client, chatId: string) {

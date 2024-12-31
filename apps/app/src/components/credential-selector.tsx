@@ -1,30 +1,26 @@
 "use client";
 
 import { startTransition, useMemo, useOptimistic } from "react";
-import { Button } from "@nech/ui/components/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@nech/ui/components/dropdown-menu";
-import { cn } from "@/lib/utils";
-import { CheckCircleIcon, KeyIcon } from "lucide-react";
+import { KeyIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import type { Database } from "@nech/supabase/types";
 import { useToast } from "@nech/ui/hooks/use-toast";
 import { updateChatAction } from "@/actions/update-chat-action";
+import { SelectWithIcon } from "@/components/ui/select-with-icon";
+
+interface CredentialSelectorProps {
+	chatId: string;
+	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
+	selectedCredentialId?: string;
+	className?: string;
+}
 
 export function CredentialSelector({
 	chatId,
 	credentials,
 	selectedCredentialId,
 	className,
-}: {
-	chatId: string;
-	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
-	selectedCredentialId?: string;
-} & React.ComponentProps<typeof Button>) {
+}: CredentialSelectorProps) {
 	const { toast } = useToast();
 	const updateCredential = useAction(updateChatAction, {
 		onSuccess: () => {
@@ -33,58 +29,48 @@ export function CredentialSelector({
 				description: "The credential has been updated successfully",
 			});
 		},
+		onError: (error) => {
+			toast({
+				title: "Error updating credential",
+				description: error?.error?.serverError || "Failed to update credential",
+				variant: "destructive",
+			});
+			setOptimisticCredentialId(selectedCredentialId);
+		},
 	});
 
 	const [optimisticCredentialId, setOptimisticCredentialId] =
 		useOptimistic(selectedCredentialId);
-	const selectedCredential = useMemo(
-		() => credentials.find((cred) => cred.id === optimisticCredentialId),
-		[credentials, optimisticCredentialId],
+
+	const credentialOptions = useMemo(
+		() =>
+			credentials.map((cred) => ({
+				id: cred.id,
+				label: cred.name,
+			})),
+		[credentials],
 	);
 
+	const handleCredentialChange = (value: string) => {
+		startTransition(() => {
+			setOptimisticCredentialId(value);
+			updateCredential.execute({
+				id: chatId,
+				credentialId: value,
+				revalidatePath: `/chat/${chatId}`,
+			});
+		});
+	};
+
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button
-					variant="outline"
-					className={cn(
-						"flex items-center gap-2 md:h-9 md:px-3",
-						"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-						className,
-					)}
-				>
-					<KeyIcon className="h-4 w-4" />
-					<span className="max-w-[150px] truncate">
-						{selectedCredential?.name || "Select Credential"}
-					</span>
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="start" className="w-[200px]">
-				{credentials.map((credential) => (
-					<DropdownMenuItem
-						key={credential.id}
-						onSelect={() => {
-							startTransition(() => {
-								setOptimisticCredentialId(credential.id);
-								updateCredential.execute({
-									id: chatId,
-									credentialId: credential.id,
-									revalidatePath: `/chat/${chatId}`,
-								});
-							});
-						}}
-						className="flex items-center justify-between py-2"
-					>
-						<div className="flex items-center gap-2">
-							<KeyIcon className="h-4 w-4" />
-							<span className="truncate">{credential.name}</span>
-						</div>
-						{credential.id === optimisticCredentialId && (
-							<CheckCircleIcon className="h-4 w-4 text-primary" />
-						)}
-					</DropdownMenuItem>
-				))}
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<SelectWithIcon
+			value={optimisticCredentialId || ""}
+			onValueChange={handleCredentialChange}
+			options={credentialOptions}
+			icon={KeyIcon}
+			placeholder="Select credential"
+			isLoading={updateCredential.status === "executing"}
+			className={className}
+		/>
 	);
 }

@@ -100,7 +100,6 @@ export const saveModelIdSchema = z.object({
 export type SaveModelIdFormValues = z.infer<typeof saveModelIdSchema>;
 
 export const createChatSchema = z.object({
-	title: z.string().min(1),
 	credentialId: z.string().min(1),
 	model: z.string().min(1),
 });
@@ -117,3 +116,13 @@ export const updateChatSchema = z.object({
 });
 
 export type UpdateChatFormValues = z.infer<typeof updateChatSchema>;
+
+export const generateChatTitleSchema = z.object({
+	content: z.string(),
+	chatId: z.string(),
+	revalidatePath: z.string().optional(),
+});
+
+export type GenerateChatTitleFormValues = z.infer<
+	typeof generateChatTitleSchema
+>;
