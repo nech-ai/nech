@@ -26,11 +26,7 @@ export const generateChatTitleAction = authActionClient
 				prompt: JSON.stringify(content),
 			});
 
-			await supabase
-				.from("chats")
-				.update({ title })
-				.eq("id", chatId)
-				.select();
+			await supabase.from("chats").update({ title }).eq("id", chatId).select();
 
 			revalidateTag(`chat_${chatId}`);
 			revalidateTag(`chat_messages_${chatId}`);
