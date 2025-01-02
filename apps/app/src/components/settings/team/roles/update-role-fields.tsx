@@ -11,6 +11,7 @@ import {
 import { Input } from "@nech/ui/components/input";
 import { Textarea } from "@nech/ui/components/textarea";
 import { Switch } from "@nech/ui/components/switch";
+import { Slider } from "@nech/ui/components/slider";
 
 interface UpdateRoleFieldsProps {
 	form: UseFormReturn<UpdateRoleFormValues>;
@@ -79,6 +80,30 @@ export function UpdateRoleFields({ form }: UpdateRoleFieldsProps) {
 						<FormControl>
 							<Switch checked={field.value} onCheckedChange={field.onChange} />
 						</FormControl>
+					</FormItem>
+				)}
+			/>
+
+			<FormField
+				control={form.control}
+				name="temperature"
+				render={({ field: { value, onChange, ...field } }) => (
+					<FormItem>
+						<FormLabel>Temperature ({value?.toFixed(2) || "0.70"})</FormLabel>
+						<FormControl>
+							<Slider
+								defaultValue={[value || 0.7]}
+								max={1}
+								min={0}
+								step={0.01}
+								onValueChange={(vals) => onChange(vals[0])}
+								{...field}
+							/>
+						</FormControl>
+						<FormDescription>
+							Higher values make the output more random, lower values make it
+							more focused
+						</FormDescription>
 					</FormItem>
 				)}
 			/>

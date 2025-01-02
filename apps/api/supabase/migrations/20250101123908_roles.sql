@@ -11,6 +11,7 @@ create table public.roles (
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
     archived_at timestamptz,
+    temperature numeric(3,2) check (temperature >= 0 AND temperature <= 1),
     constraint unique_role_name_per_team unique (team_id, name)
 );
 

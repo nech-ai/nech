@@ -7,6 +7,7 @@ export interface RoleFormValues {
 	content: string;
 	description?: string;
 	isDefault?: boolean;
+	temperature?: number;
 	redirectTo?: string;
 	revalidatePath?: string;
 }

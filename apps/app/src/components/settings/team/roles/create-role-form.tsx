@@ -24,6 +24,7 @@ export function CreateRoleForm() {
 			content: "",
 			description: "",
 			isDefault: false,
+			temperature: 0.7,
 			redirectTo: "/settings/team/roles",
 		},
 	});

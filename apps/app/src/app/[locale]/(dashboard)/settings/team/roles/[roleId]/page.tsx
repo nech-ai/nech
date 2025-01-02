@@ -12,8 +12,8 @@ export default async function UpdateRolePage(props: {
 	params: Promise<{ roleId: string }>;
 }) {
 	const { roleId } = await props.params;
-	// @ts-expect-error
-	const { data: role } = await getRole(roleId);
+	const roleData = await getRole(roleId);
+	const role = roleData?.data;
 
 	if (!role) {
 		notFound();

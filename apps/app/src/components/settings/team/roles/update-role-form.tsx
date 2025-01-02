@@ -30,6 +30,7 @@ export function UpdateRoleForm({ role }: UpdateRoleFormProps) {
 			content: role.content,
 			description: role.description || "",
 			isDefault: role.is_default ?? false,
+			temperature: role.temperature ?? 0.7,
 			redirectTo: "/settings/team/roles",
 		},
 	});

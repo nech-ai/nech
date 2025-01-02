@@ -323,6 +323,7 @@ type CreateRoleParams = {
 	content: string;
 	description?: string;
 	isDefault?: boolean;
+	temperature?: number;
 	createdById: string;
 	teamId: string;
 };
@@ -337,6 +338,7 @@ export async function createRole(supabase: Client, params: CreateRoleParams) {
 			is_default: params.isDefault,
 			created_by_id: params.createdById,
 			team_id: params.teamId,
+			temperature: params.temperature,
 		})
 		.select()
 		.single()
@@ -349,6 +351,7 @@ type UpdateRoleParams = {
 	content?: string;
 	description?: string;
 	isDefault?: boolean;
+	temperature?: number;
 	teamId: string;
 };
 
@@ -360,6 +363,7 @@ export async function updateRole(supabase: Client, params: UpdateRoleParams) {
 			content: params.content,
 			description: params.description,
 			is_default: params.isDefault,
+			temperature: params.temperature,
 		})
 		.eq("id", params.id)
 		.eq("team_id", params.teamId)

@@ -263,6 +263,7 @@ export type Database = {
 					metadata: Json | null;
 					name: string;
 					team_id: string;
+					temperature: number | null;
 					updated_at: string;
 				};
 				Insert: {
@@ -276,6 +277,7 @@ export type Database = {
 					metadata?: Json | null;
 					name: string;
 					team_id: string;
+					temperature?: number | null;
 					updated_at?: string;
 				};
 				Update: {
@@ -289,6 +291,7 @@ export type Database = {
 					metadata?: Json | null;
 					name?: string;
 					team_id?: string;
+					temperature?: number | null;
 					updated_at?: string;
 				};
 				Relationships: [

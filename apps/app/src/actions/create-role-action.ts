@@ -17,6 +17,7 @@ export const createRoleAction = authActionClient
 				content,
 				description,
 				isDefault,
+				temperature,
 				revalidatePath,
 				redirectTo,
 			},
@@ -31,6 +32,7 @@ export const createRoleAction = authActionClient
 				content,
 				description,
 				isDefault,
+				temperature,
 				createdById: user.id,
 				teamId: user.team_id,
 			});

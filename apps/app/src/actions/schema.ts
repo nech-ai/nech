@@ -136,6 +136,7 @@ const roleBaseFields = {
 	isDefault: z.boolean().optional(),
 	revalidatePath: z.string().optional(),
 	redirectTo: z.string().optional(),
+	temperature: z.number().min(0).max(1).optional(),
 } as const;
 
 export const createRoleSchema = z.object({

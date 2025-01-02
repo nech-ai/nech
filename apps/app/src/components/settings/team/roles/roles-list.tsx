@@ -83,6 +83,14 @@ export function RolesList({ roles }: { roles: Role[] }) {
 				format(new Date(row.original.created_at), "MMM d, yyyy"),
 		},
 		{
+			id: "temperature",
+			header: "Temperature",
+			accessorFn: (row) => row.temperature,
+			cell: ({ row }) => (
+				<span>{row.original.temperature?.toFixed(2) || "0.70"}</span>
+			),
+		},
+		{
 			id: "actions",
 			header: "",
 			cell: ({ row }) => <ActionsCell id={row.original.id} />,

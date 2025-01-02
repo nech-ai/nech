@@ -99,6 +99,7 @@ export async function POST(request: Request) {
 					credential.provider,
 				),
 				system: chatSystemPrompt,
+				temperature: chat.role?.temperature ?? 0.7,
 				messages: coreMessages,
 				maxSteps: 5,
 				tools: {},
