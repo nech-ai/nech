@@ -186,13 +186,17 @@ export async function getCredentialByIdWithTokenQuery(
 export async function getTeamChatsQuery(supabase: Client, teamId: string) {
 	return supabase
 		.from("chats")
-		.select("*")
+		.select("*, role:roles(*)")
 		.eq("team_id", teamId)
 		.order("updated_at", { ascending: false });
 }
 
 export async function getChatQuery(supabase: Client, chatId: string) {
-	return supabase.from("chats").select("*").eq("id", chatId).single();
+	return supabase
+		.from("chats")
+		.select("*, role:roles(*)")
+		.eq("id", chatId)
+		.single();
 }
 
 export async function getChatMessagesQuery(supabase: Client, chatId: string) {
@@ -201,4 +205,28 @@ export async function getChatMessagesQuery(supabase: Client, chatId: string) {
 
 export async function getChatTotalCostQuery(supabase: Client, chatId: string) {
 	return supabase.rpc("get_chat_total_cost", { chat_id: chatId });
+}
+
+export async function getTeamRolesQuery(supabase: Client, teamId: string) {
+	return supabase
+		.from("roles")
+		.select("*")
+		.eq("team_id", teamId)
+		.is("archived_at", null)
+		.throwOnError();
+}
+
+export async function getTeamRoleQuery(
+	supabase: Client,
+	roleId: string,
+	teamId: string,
+) {
+	return supabase
+		.from("roles")
+		.select("*")
+		.eq("id", roleId)
+		.eq("team_id", teamId)
+		.is("archived_at", null)
+		.single()
+		.throwOnError();
 }

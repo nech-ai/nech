@@ -30,27 +30,45 @@ import { createChatAction } from "@/actions/create-chat-action";
 import { useRouter } from "next/navigation";
 import { PlusIcon } from "@radix-ui/react-icons";
 import type { Tables } from "@nech/supabase/types";
+import { getAvailableModels } from "@/lib/ai/models";
+import { useMemo } from "react";
 
 const createChatSchema = z.object({
 	credentialId: z.string().min(1, "Credential is required"),
 	model: z.string().min(1, "Model is required"),
+	roleId: z.string().optional(),
 });
 
 type CreateChatFormValues = z.infer<typeof createChatSchema>;
 
 interface CreateChatDialogProps {
 	credentials: Tables<"credentials">[];
+	roles?: Tables<"roles">[];
 }
 
-export function CreateChatDialog({ credentials }: CreateChatDialogProps) {
+export function CreateChatDialog({
+	credentials,
+	roles = [],
+}: CreateChatDialogProps) {
 	const router = useRouter();
 	const form = useForm<CreateChatFormValues>({
 		resolver: zodResolver(createChatSchema),
 		defaultValues: {
 			credentialId: "",
-			model: "gpt-4",
+			model: "",
+			roleId: undefined,
 		},
 	});
+
+	const selectedCredential = useMemo(
+		() => credentials.find((cred) => cred.id === form.watch("credentialId")),
+		[credentials, form.watch("credentialId")],
+	);
+
+	const availableModels = useMemo(() => {
+		if (!selectedCredential) return [];
+		return getAvailableModels(selectedCredential.provider);
+	}, [selectedCredential]);
 
 	async function onSubmit(data: CreateChatFormValues) {
 		const result = await createChatAction(data);
@@ -80,8 +98,12 @@ export function CreateChatDialog({ credentials }: CreateChatDialogProps) {
 								<FormItem>
 									<FormLabel>Credential</FormLabel>
 									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}
+										onValueChange={(value) => {
+											field.onChange(value);
+											// Reset model when credential changes
+											form.setValue("model", "");
+										}}
+										value={field.value}
 									>
 										<FormControl>
 											<SelectTrigger>
@@ -108,7 +130,8 @@ export function CreateChatDialog({ credentials }: CreateChatDialogProps) {
 									<FormLabel>Model</FormLabel>
 									<Select
 										onValueChange={field.onChange}
-										defaultValue={field.value}
+										value={field.value}
+										disabled={!selectedCredential}
 									>
 										<FormControl>
 											<SelectTrigger>
@@ -116,21 +139,48 @@ export function CreateChatDialog({ credentials }: CreateChatDialogProps) {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											<SelectItem value="gpt-4">GPT-4</SelectItem>
-											<SelectItem value="gpt-3.5-turbo">GPT-3.5</SelectItem>
-											<SelectItem value="claude-3-opus">
-												Claude 3 Opus
-											</SelectItem>
-											<SelectItem value="claude-3-sonnet">
-												Claude 3 Sonnet
-											</SelectItem>
+											{availableModels.map((model) => (
+												<SelectItem key={model.id} value={model.id}>
+													{model.label}
+												</SelectItem>
+											))}
 										</SelectContent>
 									</Select>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" className="w-full">
+						{roles.length > 0 && (
+							<FormField
+								control={form.control}
+								name="roleId"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Role</FormLabel>
+										<Select onValueChange={field.onChange} value={field.value}>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Select role (optional)" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{roles.map((role) => (
+													<SelectItem key={role.id} value={role.id}>
+														{role.name}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
+						<Button
+							type="submit"
+							className="w-full"
+							disabled={!selectedCredential || !form.watch("model")}
+						>
 							Create Chat
 						</Button>
 					</form>

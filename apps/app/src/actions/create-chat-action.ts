@@ -9,7 +9,10 @@ import { createChatSchema } from "./schema";
 export const createChatAction = authActionClient
 	.schema(createChatSchema)
 	.action(
-		async ({ parsedInput: { credentialId }, ctx: { supabase, user } }) => {
+		async ({
+			parsedInput: { credentialId, roleId },
+			ctx: { supabase, user },
+		}) => {
 			if (!user?.team_id) {
 				return;
 			}
@@ -25,6 +28,7 @@ export const createChatAction = authActionClient
 				title: "New chat",
 				credentialId,
 				model: credential?.default_model ?? DEFAULT_MODEL_NAME,
+				roleId,
 			});
 
 			return chat;

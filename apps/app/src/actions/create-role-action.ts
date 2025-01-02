@@ -1,23 +1,22 @@
 "use server";
-import { updateChat } from "@nech/supabase/mutations";
+import { createRole } from "@nech/supabase/mutations";
 import {
 	revalidateTag,
 	revalidatePath as revalidatePathFunc,
 } from "next/cache";
 import { redirect } from "next/navigation";
 import { authActionClient } from "./safe-action";
-import { updateChatSchema } from "./schema";
+import { createRoleSchema } from "./schema";
 
-export const updateChatAction = authActionClient
-	.schema(updateChatSchema)
+export const createRoleAction = authActionClient
+	.schema(createRoleSchema)
 	.action(
 		async ({
 			parsedInput: {
-				id,
-				credentialId,
-				model,
-				title,
-				roleId,
+				name,
+				content,
+				description,
+				isDefault,
 				revalidatePath,
 				redirectTo,
 			},
@@ -27,16 +26,16 @@ export const updateChatAction = authActionClient
 				return;
 			}
 
-			const { data: chat } = await updateChat(supabase, {
-				id,
-				credential_id: credentialId,
-				model,
-				title,
-				role_id: roleId,
+			const { data: role } = await createRole(supabase, {
+				name,
+				content,
+				description,
+				isDefault,
+				createdById: user.id,
+				teamId: user.team_id,
 			});
 
-			revalidateTag(`chat_${id}`);
-			revalidateTag(`chat_messages_${id}`);
+			revalidateTag(`roles_${user.team_id}`);
 
 			if (revalidatePath) {
 				revalidatePathFunc(revalidatePath);
@@ -46,6 +45,6 @@ export const updateChatAction = authActionClient
 				redirect(redirectTo);
 			}
 
-			return chat;
+			return role;
 		},
 	);

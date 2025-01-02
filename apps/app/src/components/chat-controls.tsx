@@ -1,6 +1,7 @@
 "use client";
 import { ModelSelector } from "./model-selector";
 import { CredentialSelector } from "./credential-selector";
+import { RoleSelector } from "./role-selector";
 import { CostDisplay } from "./cost-display";
 import type { Database } from "@nech/supabase/types";
 import { useState, useEffect } from "react";
@@ -9,7 +10,9 @@ import { cn } from "@nech/ui/utils";
 interface ChatControlsProps {
 	selectedModelId: string;
 	selectedCredentialId?: string;
+	selectedRoleId?: string;
 	credentials: Database["public"]["Tables"]["credentials"]["Row"][];
+	roles: Database["public"]["Tables"]["roles"]["Row"][];
 	chatId: string;
 	initialTotalCost: number;
 	reloadTotalCost: (chatId: string) => Promise<number | null>;
@@ -19,7 +22,9 @@ interface ChatControlsProps {
 export function ChatControls({
 	selectedModelId,
 	selectedCredentialId,
+	selectedRoleId,
 	credentials,
+	roles,
 	chatId,
 	initialTotalCost,
 	reloadTotalCost,
@@ -66,6 +71,17 @@ export function ChatControls({
 					selectedCredentialId={selectedCredentialId}
 					className="w-full sm:w-auto"
 				/>
+				{roles.length > 0 && (
+					<>
+						<div className="hidden sm:block h-4 w-px bg-border" />
+						<RoleSelector
+							chatId={chatId}
+							roles={roles}
+							selectedRoleId={selectedRoleId}
+							className="w-full sm:w-auto"
+						/>
+					</>
+				)}
 			</div>
 			<CostDisplay totalCost={totalCost} className="hidden sm:flex" />
 		</div>

@@ -16,6 +16,8 @@ import {
 	getChatQuery,
 	getChatMessagesQuery,
 	getChatTotalCostQuery,
+	getTeamRolesQuery,
+	getTeamRoleQuery,
 } from "../queries";
 
 export const getSession = cache(async () => {
@@ -265,6 +267,50 @@ export const getChatTotalCost = async (chatId: string) => {
 		{
 			tags: [`chat_total_cost_${chatId}`],
 			revalidate: 1,
+		},
+	)();
+};
+
+export const getRoles = async () => {
+	const supabase = await createClient();
+
+	const user = await getUser();
+	const teamId = user?.data?.team_id;
+
+	if (!teamId) {
+		return;
+	}
+
+	return unstable_cache(
+		async () => {
+			return getTeamRolesQuery(supabase, teamId);
+		},
+		["team", "roles", teamId],
+		{
+			tags: [`roles_${teamId}`],
+			revalidate: 180,
+		},
+	)();
+};
+
+export const getRole = async (roleId: string) => {
+	const supabase = await createClient();
+
+	const user = await getUser();
+	const teamId = user?.data?.team_id;
+
+	if (!teamId) {
+		return;
+	}
+
+	return unstable_cache(
+		async () => {
+			return getTeamRoleQuery(supabase, roleId, teamId);
+		},
+		["role", roleId],
+		{
+			tags: [`role_${roleId}`],
+			revalidate: 180,
 		},
 	)();
 };

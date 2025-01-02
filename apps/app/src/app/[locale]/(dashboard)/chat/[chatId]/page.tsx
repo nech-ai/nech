@@ -7,6 +7,7 @@ import {
 	getMessages,
 	getCredentials,
 	getChatTotalCost,
+	getRoles,
 } from "@nech/supabase/cached-queries";
 import { ChatControls } from "@/components/chat-controls";
 import { ContentHeader } from "@/components/layout/content-header";
@@ -23,10 +24,18 @@ export default async function Page(props: {
 	params: Promise<{ chatId: string }>;
 }) {
 	const { chatId } = await props.params;
-	const { data: chat } = await getChat(chatId);
-	// @ts-expect-error
-	const { data: credentials } = await getCredentials();
-	const { data: messages } = await getMessages(chatId);
+	const [chatResult, credentialsResult, messagesResult, rolesResult] =
+		await Promise.all([
+			getChat(chatId),
+			getCredentials(),
+			getMessages(chatId),
+			getRoles(),
+		]);
+
+	const chat = chatResult.data;
+	const credentials = credentialsResult?.data ?? [];
+	const messages = messagesResult?.data ?? [];
+	const roles = rolesResult?.data ?? [];
 
 	if (!chat?.id) {
 		return (
@@ -90,7 +99,9 @@ export default async function Page(props: {
 								<ChatControls
 									selectedModelId={selectedModelId}
 									selectedCredentialId={chat.credential_id}
-									credentials={credentials ?? []}
+									selectedRoleId={chat.role_id || undefined}
+									credentials={credentials}
+									roles={roles}
 									chatId={chat.id}
 									initialTotalCost={totalCost ?? 0}
 									reloadTotalCost={reloadTotalCost}
@@ -106,7 +117,9 @@ export default async function Page(props: {
 					<ChatControls
 						selectedModelId={selectedModelId}
 						selectedCredentialId={chat.credential_id}
-						credentials={credentials ?? []}
+						selectedRoleId={chat.role_id || undefined}
+						credentials={credentials}
+						roles={roles}
 						chatId={chat.id}
 						initialTotalCost={totalCost ?? 0}
 						reloadTotalCost={reloadTotalCost}

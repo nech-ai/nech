@@ -1,19 +1,25 @@
 import { ChatsBlock } from "@/components/chats-block";
 import { ContentHeader } from "@/components/layout/content-header";
-import { getChats, getCredentials } from "@nech/supabase/cached-queries";
+import {
+	getChats,
+	getCredentials,
+	getRoles,
+} from "@nech/supabase/cached-queries";
 import { SearchIcon, MessageSquareIcon } from "lucide-react";
 import { Input } from "@nech/ui/components/input";
 import { EmptyState } from "@/components/empty-state";
 import { CreateChatDialog } from "@/components/create-chat-dialog";
 
 export default async function Page() {
-	const [chatsResult, credentialsResult] = await Promise.all([
+	const [chatsResult, credentialsResult, rolesResult] = await Promise.all([
 		getChats(),
 		getCredentials(),
+		getRoles(),
 	]);
 
 	const chats = chatsResult?.data ?? [];
 	const credentials = credentialsResult?.data ?? [];
+	const roles = rolesResult?.data ?? [];
 
 	return (
 		<>
@@ -41,12 +47,14 @@ export default async function Page() {
 							icon={MessageSquareIcon}
 							title="No chats yet"
 							description="Start a new chat to begin your conversation with AI models"
-							action={<CreateChatDialog credentials={credentials} />}
+							action={
+								<CreateChatDialog credentials={credentials} roles={roles} />
+							}
 						/>
 					</div>
 				) : (
 					<div className="p-4 w-full">
-						<ChatsBlock chats={chats} credentials={credentials} />
+						<ChatsBlock chats={chats} credentials={credentials} roles={roles} />
 					</div>
 				)}
 			</main>

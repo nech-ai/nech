@@ -101,6 +101,7 @@ export type SaveModelIdFormValues = z.infer<typeof saveModelIdSchema>;
 
 export const createChatSchema = z.object({
 	credentialId: z.string().min(1),
+	roleId: z.string().optional(),
 	model: z.string().min(1),
 });
 
@@ -111,6 +112,7 @@ export const updateChatSchema = z.object({
 	credentialId: z.string().optional(),
 	model: z.string().optional(),
 	title: z.string().optional(),
+	roleId: z.string().optional(),
 	revalidatePath: z.string().optional(),
 	redirectTo: z.string().optional(),
 });
@@ -126,3 +128,24 @@ export const generateChatTitleSchema = z.object({
 export type GenerateChatTitleFormValues = z.infer<
 	typeof generateChatTitleSchema
 >;
+
+const roleBaseFields = {
+	name: z.string().min(2).max(32),
+	content: z.string().min(1),
+	description: z.string().optional(),
+	isDefault: z.boolean().optional(),
+	revalidatePath: z.string().optional(),
+	redirectTo: z.string().optional(),
+} as const;
+
+export const createRoleSchema = z.object({
+	...roleBaseFields,
+});
+
+export const updateRoleSchema = z.object({
+	id: z.string(),
+	...roleBaseFields,
+});
+
+export type CreateRoleFormValues = z.infer<typeof createRoleSchema>;
+export type UpdateRoleFormValues = z.infer<typeof updateRoleSchema>;

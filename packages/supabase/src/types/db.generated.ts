@@ -17,6 +17,7 @@ export type Database = {
 					id: string;
 					metadata: Json | null;
 					model: string;
+					role_id: string | null;
 					system_prompt: string | null;
 					team_id: string;
 					title: string;
@@ -29,6 +30,7 @@ export type Database = {
 					id?: string;
 					metadata?: Json | null;
 					model: string;
+					role_id?: string | null;
 					system_prompt?: string | null;
 					team_id: string;
 					title: string;
@@ -41,6 +43,7 @@ export type Database = {
 					id?: string;
 					metadata?: Json | null;
 					model?: string;
+					role_id?: string | null;
 					system_prompt?: string | null;
 					team_id?: string;
 					title?: string;
@@ -59,6 +62,13 @@ export type Database = {
 						columns: ["credential_id"];
 						isOneToOne: false;
 						referencedRelation: "credentials";
+						referencedColumns: ["id"];
+					},
+					{
+						foreignKeyName: "chats_role_id_fkey";
+						columns: ["role_id"];
+						isOneToOne: false;
+						referencedRelation: "roles";
 						referencedColumns: ["id"];
 					},
 					{
@@ -237,6 +247,63 @@ export type Database = {
 						columns: ["parent_id"];
 						isOneToOne: false;
 						referencedRelation: "messages";
+						referencedColumns: ["id"];
+					},
+				];
+			};
+			roles: {
+				Row: {
+					archived_at: string | null;
+					content: string;
+					created_at: string;
+					created_by_id: string;
+					description: string | null;
+					id: string;
+					is_default: boolean | null;
+					metadata: Json | null;
+					name: string;
+					team_id: string;
+					updated_at: string;
+				};
+				Insert: {
+					archived_at?: string | null;
+					content: string;
+					created_at?: string;
+					created_by_id: string;
+					description?: string | null;
+					id?: string;
+					is_default?: boolean | null;
+					metadata?: Json | null;
+					name: string;
+					team_id: string;
+					updated_at?: string;
+				};
+				Update: {
+					archived_at?: string | null;
+					content?: string;
+					created_at?: string;
+					created_by_id?: string;
+					description?: string | null;
+					id?: string;
+					is_default?: boolean | null;
+					metadata?: Json | null;
+					name?: string;
+					team_id?: string;
+					updated_at?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: "roles_created_by_id_fkey";
+						columns: ["created_by_id"];
+						isOneToOne: false;
+						referencedRelation: "users";
+						referencedColumns: ["id"];
+					},
+					{
+						foreignKeyName: "roles_team_id_fkey";
+						columns: ["team_id"];
+						isOneToOne: false;
+						referencedRelation: "teams";
 						referencedColumns: ["id"];
 					},
 				];

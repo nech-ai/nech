@@ -5,11 +5,11 @@
 	"tsx": true,
 	"tailwind": {
 		"config": "tailwind.config.ts",
-		"css": "styles/globals.css",
+		"css": "src/globals.css",
 		"baseColor": "slate",
-		"cssVariables": true,
-		"prefix": ""
+		"cssVariables": true
 	},
+	"iconLibrary": "lucide",
 	"aliases": {
 		"components": "@nech/ui/components",
 		"hooks": "@nech/ui/hooks",

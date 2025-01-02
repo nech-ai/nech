@@ -223,6 +223,7 @@ type CreateChatParams = {
 	title: string;
 	credentialId: string;
 	model: string;
+	roleId?: string;
 };
 
 export async function createChat(supabase: Client, params: CreateChatParams) {
@@ -247,6 +248,7 @@ export async function createChat(supabase: Client, params: CreateChatParams) {
 			created_by_id: session.user.id,
 			credential_id: params.credentialId,
 			model: params.model,
+			role_id: params.roleId,
 		})
 		.select()
 		.single();
@@ -261,51 +263,48 @@ type UpdateChatParams = {
 	title?: string;
 	model?: string;
 	credential_id?: string;
+	role_id?: string;
 };
 
 export async function updateChat(supabase: Client, params: UpdateChatParams) {
 	return supabase.from("chats").update(params).eq("id", params.id).select();
 }
 
-type CreateMessageParams = {
+interface Usage {
+	promptTokens?: number;
+	completionTokens?: number;
+	totalTokens?: number;
+	promptCost?: number;
+	completionCost?: number;
+	totalCost?: number;
+}
+
+interface CreateMessageParams {
 	chatId: string;
 	content: string;
 	role: "user" | "assistant" | "system" | "tool";
-	usage: {
-		promptTokens?: number;
-		completionTokens?: number;
-		totalTokens?: number;
-		promptCost?: number;
-		completionCost?: number;
-		totalCost?: number;
-	};
-};
+	usage?: Usage;
+}
 
 export async function createMessage(
 	supabase: Client,
 	params: CreateMessageParams,
 ) {
-	const metadata: Record<string, number | undefined> = {};
-	if (params.usage) {
-		if (params.usage.promptTokens) {
-			metadata.promptTokens = params.usage.promptTokens;
-		}
-		if (params.usage.completionTokens) {
-			metadata.completionTokens = params.usage.completionTokens;
-		}
-		if (params.usage.totalTokens) {
-			metadata.totalTokens = params.usage.totalTokens;
-		}
-		if (params.usage.promptCost) {
-			metadata.promptCost = params.usage.promptCost;
-		}
-		if (params.usage.completionCost) {
-			metadata.completionCost = params.usage.completionCost;
-		}
-		if (params.usage.totalCost) {
-			metadata.totalCost = params.usage.totalCost;
-		}
-	}
+	const hasUsage = Object.values(params.usage ?? {}).some(
+		(value) => value !== undefined,
+	);
+	const metadata = hasUsage
+		? Object.entries(params.usage ?? {})
+				.filter(
+					(entry): entry is [string, number] => typeof entry[1] === "number",
+				)
+				.reduce<Record<string, number>>(
+					// biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+					(acc, [key, value]) => ({ ...acc, [key]: value }),
+					{},
+				)
+		: undefined;
+
 	return supabase
 		.from("messages")
 		.insert({
@@ -317,4 +316,69 @@ export async function createMessage(
 		})
 		.select()
 		.single();
+}
+
+type CreateRoleParams = {
+	name: string;
+	content: string;
+	description?: string;
+	isDefault?: boolean;
+	createdById: string;
+	teamId: string;
+};
+
+export async function createRole(supabase: Client, params: CreateRoleParams) {
+	return supabase
+		.from("roles")
+		.insert({
+			name: params.name,
+			content: params.content,
+			description: params.description,
+			is_default: params.isDefault,
+			created_by_id: params.createdById,
+			team_id: params.teamId,
+		})
+		.select()
+		.single()
+		.throwOnError();
+}
+
+type UpdateRoleParams = {
+	id: string;
+	name?: string;
+	content?: string;
+	description?: string;
+	isDefault?: boolean;
+	teamId: string;
+};
+
+export async function updateRole(supabase: Client, params: UpdateRoleParams) {
+	return supabase
+		.from("roles")
+		.update({
+			name: params.name,
+			content: params.content,
+			description: params.description,
+			is_default: params.isDefault,
+		})
+		.eq("id", params.id)
+		.eq("team_id", params.teamId)
+		.select()
+		.single()
+		.throwOnError();
+}
+
+export async function archiveRole(
+	supabase: Client,
+	roleId: string,
+	teamId: string,
+) {
+	return supabase
+		.from("roles")
+		.update({ archived_at: new Date().toISOString() })
+		.eq("id", roleId)
+		.eq("team_id", teamId)
+		.select()
+		.single()
+		.throwOnError();
 }

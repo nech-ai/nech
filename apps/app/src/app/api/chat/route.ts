@@ -59,6 +59,11 @@ export async function POST(request: Request) {
 
 	const { data: chat } = await getChat(id);
 
+	let chatSystemPrompt = systemPrompt;
+	if (chat?.role_id && chat?.role) {
+		chatSystemPrompt = chat.role?.content ?? systemPrompt;
+	}
+
 	if (!chat) {
 		return new Response("Chat not found", { status: 404 });
 	}
@@ -93,7 +98,7 @@ export async function POST(request: Request) {
 					credential.default_model ?? model.id,
 					credential.provider,
 				),
-				system: systemPrompt,
+				system: chatSystemPrompt,
 				messages: coreMessages,
 				maxSteps: 5,
 				tools: {},
