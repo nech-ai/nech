@@ -57,7 +57,7 @@ export function CredentialSelector({
 			updateCredential.execute({
 				id: chatId,
 				credentialId: value,
-				revalidatePath: `/chat/${chatId}`,
+				revalidatePath: `/chats/${chatId}`,
 			});
 		});
 	};

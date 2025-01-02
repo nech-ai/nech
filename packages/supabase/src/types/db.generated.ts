@@ -33,7 +33,7 @@ export type Database = {
 					role_id?: string | null;
 					system_prompt?: string | null;
 					team_id: string;
-					title: string;
+					title?: string;
 					updated_at?: string;
 				};
 				Update: {

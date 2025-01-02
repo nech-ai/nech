@@ -18,6 +18,7 @@ import {
 	getChatTotalCostQuery,
 	getTeamRolesQuery,
 	getTeamRoleQuery,
+	type GetTeamChatsParams,
 } from "../queries";
 
 export const getSession = cache(async () => {
@@ -204,26 +205,19 @@ export const getCredential = async (credentialId: string) => {
 	)();
 };
 
-export const getChats = async () => {
+export const getChats = async (params: Omit<GetTeamChatsParams, "teamId">) => {
 	const supabase = await createClient();
 
 	const user = await getUser();
 	const teamId = user?.data?.team_id;
-
-	if (!teamId) {
-		return;
-	}
+	if (!teamId) return null;
 
 	return unstable_cache(
-		async () => {
-			return getTeamChatsQuery(supabase, teamId);
-		},
-		["team", "chats", teamId],
-		{
-			tags: [`team_chats_${teamId}`],
-			revalidate: 180,
-		},
-	)();
+		async () => getTeamChatsQuery(supabase, { ...params, teamId }),
+		["chats", teamId, JSON.stringify(params)],
+		{ tags: [`chats_${teamId}`], revalidate: 30 },
+		// @ts-expect-error
+	)(params);
 };
 
 export const getChat = async (chatId: string) => {

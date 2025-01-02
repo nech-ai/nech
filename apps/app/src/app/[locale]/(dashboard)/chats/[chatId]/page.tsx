@@ -46,7 +46,7 @@ export default async function Page(props: {
 					description="This chat may have been deleted or you don't have access to it"
 					action={
 						<Button asChild>
-							<Link href="/chat">Back to Chats</Link>
+							<Link href="/chats">Back to Chats</Link>
 						</Button>
 					}
 				/>
@@ -74,7 +74,7 @@ export default async function Page(props: {
 			<ContentHeader className="flex-col sm:flex-row gap-2 sm:gap-0">
 				<div className="flex items-center gap-4 min-w-0 px-4 w-full">
 					<Link
-						href="/chat"
+						href="/chats"
 						className="text-muted-foreground hover:text-foreground p-1.5 rounded-md hover:bg-muted transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 						aria-label="Back to chats"
 					>

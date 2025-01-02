@@ -150,3 +150,27 @@ export const updateRoleSchema = z.object({
 
 export type CreateRoleFormValues = z.infer<typeof createRoleSchema>;
 export type UpdateRoleFormValues = z.infer<typeof updateRoleSchema>;
+
+export const parseDateSchema = z
+	.date()
+	.transform((value) => new Date(value))
+	// .transform((v) => isValid(v))
+	.refine((v) => !!v, { message: "Invalid date" });
+
+export const filterChatsSchema = z.object({
+	name: z.string().optional().describe("The name to search for"),
+	start: parseDateSchema
+		.optional()
+		.describe(
+			"The start date when chat creation date. Return ISO-8601 format.",
+		),
+	end: parseDateSchema
+		.optional()
+		.describe(
+			"The end date when chat creation date. If not provided, defaults to the current date. Return ISO-8601 format.",
+		),
+	createdBy: z
+		.string()
+		.optional()
+		.describe("The name of the member who created the chat to search for"),
+});

@@ -56,7 +56,7 @@ export function ModelSelector({
 			updateModel.execute({
 				id: chatId,
 				model: value,
-				revalidatePath: `/chat/${chatId}`,
+				revalidatePath: `/chats/${chatId}`,
 			});
 		});
 	};

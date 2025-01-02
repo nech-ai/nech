@@ -73,7 +73,7 @@ export function CreateChatDialog({
 	async function onSubmit(data: CreateChatFormValues) {
 		const result = await createChatAction(data);
 		if (result?.data?.id) {
-			router.push(`/chat/${result.data.id}`);
+			router.push(`/chats/${result.data.id}`);
 		}
 	}
 

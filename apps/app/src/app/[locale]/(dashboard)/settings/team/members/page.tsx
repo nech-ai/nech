@@ -26,10 +26,12 @@ export default async function TeamMembersPage() {
 		redirect("/settings/team/general");
 	}
 
-	const teamMembers = await getTeamMembersQuery(
+	const teamMembersData = await getTeamMembersQuery(
 		supabase,
 		userData.data.team_id,
 	);
+
+	const teamMembers = teamMembersData?.data ?? [];
 
 	const teamInvitations = await getTeamInvitesQuery(
 		supabase,
@@ -40,7 +42,7 @@ export default async function TeamMembersPage() {
 		<div className="grid grid-cols-1 gap-6">
 			<InviteMemberForm revalidatePath="/settings/team/members" />
 			<TeamMembersBlock
-				memberships={teamMembers ?? []}
+				memberships={teamMembers}
 				invitations={teamInvitations ?? []}
 			/>
 		</div>

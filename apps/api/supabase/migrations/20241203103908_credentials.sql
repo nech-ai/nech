@@ -1,5 +1,13 @@
 -- Create provider enum
-create type provider as ENUM('OPENAI', 'ANTHROPIC', 'GOOGLE', 'AZURE', 'XAI', 'GROQ', 'MISTRAL');
+create type provider as ENUM(
+  'OPENAI',
+  'ANTHROPIC',
+  'GOOGLE',
+  'AZURE',
+  'XAI',
+  'GROQ',
+  'MISTRAL'
+);
 
 create type credential_type as ENUM('API_KEY', 'URL');
 

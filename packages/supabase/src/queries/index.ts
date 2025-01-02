@@ -1,4 +1,5 @@
 import type { Client } from "../types/index";
+import { UTCDate } from "@date-fns/utc";
 
 // Database types
 export async function getUserQuery(supabase: Client, userId: string) {
@@ -44,7 +45,7 @@ export async function getTeamMembershipsByUserIdQuery(
 }
 
 export async function getTeamMembersQuery(supabase: Client, teamId: string) {
-	const { data } = await supabase
+	return await supabase
 		.from("team_memberships")
 		.select(
 			`
@@ -62,8 +63,6 @@ export async function getTeamMembersQuery(supabase: Client, teamId: string) {
 		.eq("team_id", teamId)
 		.order("created_at")
 		.throwOnError();
-
-	return data;
 }
 
 export async function getTeamInvitesQuery(supabase: Client, teamId: string) {
@@ -183,12 +182,81 @@ export async function getCredentialByIdWithTokenQuery(
 		.throwOnError();
 }
 
-export async function getTeamChatsQuery(supabase: Client, teamId: string) {
-	return supabase
+export type GetTeamChatsParams = {
+	teamId: string;
+	to: number;
+	from: number;
+	sort?: [string, "asc" | "desc"];
+	searchQuery?: string;
+	filter?: {
+		start?: string;
+		end?: string;
+		createdBy?: string;
+	};
+};
+
+export async function getTeamChatsQuery(
+	supabase: Client,
+	params: GetTeamChatsParams,
+) {
+	const { from = 0, to, filter, sort, teamId } = params;
+	const { start, end, createdBy } = filter || {};
+	const columns = [
+		"id",
+		"title",
+		"model",
+		"system_prompt",
+		"metadata",
+		"created_by_id",
+		"created_by:users!created_by_id(id, full_name, avatar_url)",
+		"credential_id",
+		"credential:credentials(id,name,provider,type,masked_value)",
+		"role_id",
+		"role:roles(id,name, content, description, temperature)",
+		"created_at",
+		"updated_at",
+	];
+	const query = supabase
 		.from("chats")
-		.select("*, role:roles(*)")
-		.eq("team_id", teamId)
-		.order("updated_at", { ascending: false });
+		.select(columns.join(","), { count: "exact" })
+		.eq("team_id", teamId);
+
+	if (sort) {
+		const [column, value] = sort;
+		const ascending = value === "asc";
+		if (column === "role") {
+			query.order("role(name)", { ascending });
+		} else if (column === "credential") {
+			query.order("credential(name)", { ascending });
+		} else if (column === "created_by") {
+			query.order("created_by(full_name)", { ascending });
+		} else {
+			query.order(column, { ascending });
+		}
+	} else {
+		query.order("created_at", { ascending: false });
+	}
+
+	if (start && end) {
+		const fromDate = new UTCDate(start);
+		const toDate = new UTCDate(end);
+
+		query.gte("created_at", fromDate.toISOString());
+		query.lte("created_at", toDate.toISOString());
+	}
+
+	if (createdBy) {
+		query.eq("created_by_id", createdBy);
+	}
+
+	const { data, count } = await query.range(from, to).throwOnError();
+
+	return {
+		meta: {
+			count,
+		},
+		data,
+	};
 }
 
 export async function getChatQuery(supabase: Client, chatId: string) {

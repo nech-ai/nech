@@ -9,8 +9,10 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@date-fns/utc": "^2.1.0",
 		"@nech/logger": "workspace:*",
 		"@supabase/ssr": "^0.5.2",
+		"date-fns": "^4.1.0",
 		"react": "19.0.0",
 		"server-only": "^0.0.1",
 		"supabase": "^2.2.1"

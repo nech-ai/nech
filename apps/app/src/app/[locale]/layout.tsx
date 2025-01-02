@@ -7,6 +7,7 @@ import { Poppins } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import "@nech/ui/globals.css";
 import { config } from "@config";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export const metadata: Metadata = {
 	title: {
@@ -55,7 +56,9 @@ export default async function RootLayout({
 					defaultTheme={config.ui.defaultTheme}
 					themes={config.ui.enabledThemes}
 				>
-					<JotaiProvider>{children}</JotaiProvider>
+					<JotaiProvider>
+						<NuqsAdapter>{children}</NuqsAdapter>
+					</JotaiProvider>
 				</ThemeProvider>
 				<Toaster />
 			</body>

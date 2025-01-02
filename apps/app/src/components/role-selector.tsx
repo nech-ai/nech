@@ -55,7 +55,7 @@ export function RoleSelector({
 			updateRole.execute({
 				id: chatId,
 				roleId: value || undefined,
-				revalidatePath: `/chat/${chatId}`,
+				revalidatePath: `/chats/${chatId}`,
 			});
 		});
 	};
