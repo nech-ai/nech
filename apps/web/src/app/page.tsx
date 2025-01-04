@@ -5,17 +5,21 @@ import { Layout } from "@/components/layout";
 import { OpenSourceSection } from "@/components/open-source-section";
 import { PricingSection } from "@/components/pricing-section";
 import { ValueProposition } from "@/components/value-proposition";
+import { FAQSection } from "@/components/faq-section";
 
 export default function Page() {
 	return (
 		<Layout>
-			<div className="flex flex-col divide-y divide-gray-800">
+			<div className="flex flex-col">
 				<HeroSection />
-				<ValueProposition />
-				<FeaturesSection />
-				<OpenSourceSection />
-				<PricingSection />
-				<CTASection />
+				<div className="flex flex-col divide-y divide-gray-800">
+					<ValueProposition />
+					<FeaturesSection />
+					<OpenSourceSection />
+					<PricingSection />
+					<FAQSection />
+					<CTASection />
+				</div>
 			</div>
 		</Layout>
 	);
