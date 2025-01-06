@@ -15,13 +15,10 @@ import { Table } from "@/components/tables/chats";
 import { ColumnVisibility } from "@/components/tables/chats/column-visibility";
 
 export default async function Page({
-	params,
+	searchParams,
 }: {
-	params: Promise<{
-		searchParams: Record<string, string | string[] | undefined>;
-	}>;
+	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const { searchParams } = await params;
 	const {
 		q: query,
 		page,

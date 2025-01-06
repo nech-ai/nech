@@ -22,8 +22,6 @@ export async function Table({ filter, page, sort, query }: Props) {
 		cookieStore.get(Cookies.ChatsColumns)?.value || "[]",
 	);
 
-	// NOTE: When we have a filter we want to show all results so users can select
-	// And handle all in once (export etc)
 	const jobs = await getChats({
 		to: hasFilters ? maxItems : page > 0 ? pageSize : pageSize - 1,
 		from: 0,

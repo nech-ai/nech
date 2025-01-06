@@ -7,8 +7,10 @@ import { useUserMessageId } from "@/hooks/use-user-message-id";
 import { type Dispatch, useEffect, useRef, useState } from "react";
 import type { SetStateAction } from "react";
 import { useToast } from "@nech/ui/hooks/use-toast";
+import { deleteTrailingMessagesAction } from "@/actions/delete-trailing-messages-action";
 
 export type MessageEditorProps = {
+	chatId: string;
 	message: Message;
 	setMode: Dispatch<SetStateAction<"view" | "edit">>;
 	setMessages: (
@@ -20,6 +22,7 @@ export type MessageEditorProps = {
 };
 
 export function MessageEditor({
+	chatId,
 	message,
 	setMode,
 	setMessages,
@@ -86,9 +89,10 @@ export function MessageEditor({
 							return;
 						}
 
-						// await deleteTrailingMessages({
-						//   id: messageId,
-						// });
+						await deleteTrailingMessagesAction({
+							chatId,
+							messageId,
+						});
 
 						setMessages((messages) => {
 							const index = messages.findIndex((m) => m.id === message.id);

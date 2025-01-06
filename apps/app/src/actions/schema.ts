@@ -174,3 +174,9 @@ export const filterChatsSchema = z.object({
 		.optional()
 		.describe("The name of the member who created the chat to search for"),
 });
+
+export const deleteTrailingMessagesSchema = z.object({
+	chatId: z.string(),
+	messageId: z.string(),
+	revalidatePath: z.string().optional(),
+});

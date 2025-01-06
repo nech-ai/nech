@@ -40,7 +40,7 @@ export function ChatControls({
 		const interval = setInterval(async () => {
 			const totalCost = await reloadTotalCost(chatId);
 			setTotalCost(totalCost ?? 0);
-		}, 2000);
+		}, 10000);
 		return () => clearInterval(interval);
 	}, [chatId, reloadTotalCost]);
 

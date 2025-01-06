@@ -88,6 +88,18 @@ with
     )
   );
 
+create policy "allow delete for chat members" on public.messages for delete using (
+  exists (
+    select
+      1
+    from
+      public.chats
+    where
+      id = messages.chat_id
+      and public.is_member_of (auth.uid (), team_id)
+  )
+);
+
 -- Triggers for updated_at
 create trigger chats_updated_at before
 update on public.chats for each row
