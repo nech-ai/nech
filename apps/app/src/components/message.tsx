@@ -5,7 +5,7 @@ import cx from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import { memo, useState } from "react";
 
-import { PencilIcon, SparklesIcon } from "lucide-react";
+import { PencilIcon, SparklesIcon, Trash2Icon } from "lucide-react";
 import { Markdown } from "./markdown";
 import { MessageActions } from "./message-actions";
 import equal from "fast-deep-equal";
@@ -17,6 +17,18 @@ import {
 	TooltipTrigger,
 } from "@nech/ui/components/tooltip";
 import { MessageEditor } from "./message-editor";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@nech/ui/components/alert-dialog";
+import { deleteTrailingMessagesAction } from "@/actions/delete-trailing-messages-action";
 
 const PurePreviewMessage = ({
 	chatId,
@@ -66,20 +78,70 @@ const PurePreviewMessage = ({
 						{message.content && mode === "view" && (
 							<div className="flex flex-row gap-2 items-start">
 								{message.role === "user" && (
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												variant="ghost"
-												className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
-												onClick={() => {
-													setMode("edit");
-												}}
-											>
-												<PencilIcon />
-											</Button>
-										</TooltipTrigger>
-										<TooltipContent>Edit message</TooltipContent>
-									</Tooltip>
+									<div className="flex gap-1">
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<Button
+													variant="ghost"
+													className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
+													onClick={() => {
+														setMode("edit");
+													}}
+												>
+													<PencilIcon size={16} />
+												</Button>
+											</TooltipTrigger>
+											<TooltipContent>Edit message</TooltipContent>
+										</Tooltip>
+
+										<AlertDialog>
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<AlertDialogTrigger asChild>
+														<Button
+															variant="ghost"
+															className="px-2 h-fit rounded-full text-destructive opacity-0 group-hover/message:opacity-100"
+														>
+															<Trash2Icon size={16} />
+														</Button>
+													</AlertDialogTrigger>
+												</TooltipTrigger>
+												<TooltipContent>Delete message</TooltipContent>
+											</Tooltip>
+
+											<AlertDialogContent>
+												<AlertDialogHeader>
+													<AlertDialogTitle>Delete message?</AlertDialogTitle>
+													<AlertDialogDescription>
+														This will delete this message and all following
+														messages in the conversation. This action cannot be
+														undone.
+													</AlertDialogDescription>
+												</AlertDialogHeader>
+												<AlertDialogFooter>
+													<AlertDialogCancel>Cancel</AlertDialogCancel>
+													<AlertDialogAction
+														onClick={async () => {
+															await deleteTrailingMessagesAction({
+																chatId,
+																messageId: message.id,
+															});
+															setMessages((messages) =>
+																messages.slice(
+																	0,
+																	messages.findIndex(
+																		(m) => m.id === message.id,
+																	),
+																),
+															);
+														}}
+													>
+														Delete
+													</AlertDialogAction>
+												</AlertDialogFooter>
+											</AlertDialogContent>
+										</AlertDialog>
+									</div>
 								)}
 
 								<div
@@ -140,6 +202,8 @@ const PurePreviewMessage = ({
 							chatId={chatId}
 							message={message}
 							isLoading={isLoading}
+							reload={reload}
+							setMessages={setMessages}
 						/>
 					</div>
 				</div>
