@@ -12,7 +12,7 @@
 		"@nech/supabase": "workspace:*",
 		"@nech/ui": "workspace:*",
 		"@nech/utils": "workspace:*",
-		"@number-flow/react": "^0.4.4",
+		"@number-flow/react": "^0.5.5",
 		"@tanstack/react-table": "^8.20.6",
 		"ai": "^4.0.22",
 		"boring-avatars": "^1.11.2",
