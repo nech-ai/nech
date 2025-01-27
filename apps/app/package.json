@@ -50,7 +50,7 @@
 		"@biomejs/biome": "1.9.4",
 		"@nech/logger": "workspace:*",
 		"@types/js-cookie": "^3.0.6",
-		"@types/node": "22.10.2",
+		"@types/node": "22.10.10",
 		"@types/react": "19.0.2",
 		"@types/react-dom": "19.0.2",
 		"tailwind-config": "workspace:*",
